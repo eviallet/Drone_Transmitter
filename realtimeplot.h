@@ -20,10 +20,7 @@ public slots:
     void append(int y, int x = QTime::currentTime().msecsSinceStartOfDay());
     void set_axis_names(QString x, QString y);
     void show_average(bool show);
-    void set_update_time(int msec);
     void set_ranges(int xmin, int xmax, int ymin, int ymax);
-private slots:
-    void on_timer_timeout();
 private:
     QSplineSeries *_series;
     QLineSeries *_series_average;
@@ -34,8 +31,6 @@ private:
     int _t_0 = 0;
     bool _show_average = true;
     QString _title_y;
-    QTimer *_timer;
-    bool _timed = false;
 };
 
 #endif // REALTIMEPLOT_H

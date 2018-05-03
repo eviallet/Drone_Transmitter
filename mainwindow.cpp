@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Command
     connect(preprocessor, &Preprocessor::command_changed, this, &MainWindow::on_command_changed);
+    connect(ui->scale_box_acc, SIGNAL(valueChanged(int)), preprocessor, SLOT(on_acc_scale_changed(int)));
+    connect(ui->scale_box_pitch, SIGNAL(valueChanged(int)), preprocessor, SLOT(on_pitch_scale_changed(int)));
 
 
     // Charts
@@ -24,22 +26,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->chart_drone_hg->set_axis_names("time","command - H G");
     ui->chart_drone_hg->show_average(false);
-    ui->chart_drone_hg->set_update_time(100);
     ui->chart_drone_hg->set_ranges(0, 10000, 0, 65535);
 
     ui->chart_drone_hd->set_axis_names("time","command - H D");
     ui->chart_drone_hd->show_average(false);
-    ui->chart_drone_hd->set_update_time(100);
     ui->chart_drone_hd->set_ranges(0, 10000, 0, 65535);
 
     ui->chart_drone_bg->set_axis_names("time","command - B G");
     ui->chart_drone_bg->show_average(false);
-    ui->chart_drone_bg->set_update_time(100);
     ui->chart_drone_bg->set_ranges(0, 10000, 0, 65535);
 
     ui->chart_drone_bd->set_axis_names("time","command - B D");
     ui->chart_drone_bd->show_average(false);
-    ui->chart_drone_bd->set_update_time(100);
     ui->chart_drone_bd->set_ranges(0, 10000, 0, 65535);
 
 }

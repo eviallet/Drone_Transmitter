@@ -151,10 +151,10 @@
    <widget class="QGroupBox" name="connexion_box">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>10</x>
       <y>330</y>
-      <width>182</width>
-      <height>114</height>
+      <width>181</width>
+      <height>131</height>
      </rect>
     </property>
     <property name="title">
@@ -291,6 +291,63 @@
       <height>10000</height>
      </size>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>330</y>
+      <width>197</width>
+      <height>128</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Tweaks</string>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="1" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Pitch/roll factor :</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="scale_box_pitch">
+         <property name="maximum">
+          <number>100000</number>
+         </property>
+         <property name="value">
+          <number>7500</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Acceleration factor :</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="scale_box_acc">
+         <property name="maximum">
+          <number>100000</number>
+         </property>
+         <property name="value">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>

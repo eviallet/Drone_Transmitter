@@ -4,14 +4,14 @@ Preprocessor::Preprocessor() {
     pad = new QGamepad();
 
     _timer = new QTimer;
-    _timer->setInterval(100);
-    _timer->setSingleShot(true);
+    _timer->setInterval(50);
+    _timer->setSingleShot(false);
     connect(_timer, &QTimer::timeout, this, &Preprocessor::on_timer_timeout);
 
-    cmd.Values.motor_B_D = 10;
-    cmd.Values.motor_H_D = 10;
-    cmd.Values.motor_H_G = 10;
-    cmd.Values.motor_B_G = 10;
+    cmd.Values.motor_B_D = 0;
+    cmd.Values.motor_H_D = 0;
+    cmd.Values.motor_H_G = 0;
+    cmd.Values.motor_B_G = 0;
 
     // Pad joysticks
     connect(pad, SIGNAL(axisLeftXChanged(double)), this, SLOT(on_axisLeftXChanged(double)));
@@ -23,58 +23,56 @@ Preprocessor::Preprocessor() {
     connect(pad, SIGNAL(buttonR2Changed(double)), this, SLOT(on_buttonR2Changed(double)));
     // Pad events
     connect(pad, SIGNAL(connectedChanged(bool)), this, SLOT(on_connectedChanged(bool)));
+
+
+    _timer->start();
 }
 
 void Preprocessor::preprocess_speed() {
-    _pitch = (double)map(pad->axisLeftX()*10000, -10000, 10000, 9000, 11000) / 10000.;
-    _roll = (double)map(pad->axisRightX()*10000, -10000, 10000, 9000, 11000) / 10000.;
-    _acc =(double)map((0.5+pad->buttonR2()/2-pad->buttonL2()/2)*10000, 0, 10000, 9000, 11000) / 10000.;
-
-    if(!_timer->isActive())
-        _timer->start();
+    _pitch = (double)-pad->axisLeftX();
+    _roll = (double)-pad->axisLeftY();
+    _acc = (pad->buttonR2()-pad->buttonL2()) * 100;
 }
 
 void Preprocessor::on_timer_timeout() {
-    unsigned long B_D = cmd.Values.motor_B_D*_acc;
-    unsigned long H_D = cmd.Values.motor_H_D*_acc;
-    unsigned long B_G = cmd.Values.motor_B_G*_acc;
-    unsigned long H_G = cmd.Values.motor_H_G*_acc;
+    long B_D = cmd.Values.motor_B_D + _acc*_acc_scale;
+    long H_D = cmd.Values.motor_H_D + _acc*_acc_scale;
+    long B_G = cmd.Values.motor_B_G + _acc*_acc_scale;
+    long H_G = cmd.Values.motor_H_G + _acc*_acc_scale;
 
-    qDebug() << "Acc = " << QString::number(_acc) << " - Before acc : " << QString::number(cmd.Values.motor_B_D) << " - After acc : " << QString::number(B_D);
+    H_D+=(_pitch-_pitch_prev)*_pitch_scale;
+    B_D+=(_pitch-_pitch_prev)*_pitch_scale;
+    H_G-=(_pitch-_pitch_prev)*_pitch_scale;
+    B_G-=(_pitch-_pitch_prev)*_pitch_scale;
 
-    if(_pitch>1) {
-        H_D*=_pitch;
-        B_D*=_pitch;
-    } else {
-        H_G*=(2-_pitch);
-        B_G*=(2-_pitch);
-    }
-    if(_roll>1) {
-        B_G*=_roll;
-        B_D*=_roll;
-    } else {
-        H_G*=(2-_roll);
-        H_D*=(2-_roll);
-    }
+    _pitch_prev = _pitch;
 
-    //apply_filter(&B_D,&H_D,&B_G,&H_G);
+    B_G+=(_roll-_roll_prev)*_pitch_scale;
+    B_D+=(_roll-_roll_prev)*_pitch_scale;
+    H_G-=(_roll-_roll_prev)*_pitch_scale;
+    H_D-=(_roll-_roll_prev)*_pitch_scale;
+
+    _roll_prev = _roll;
 
     if(B_D>65535)
         B_D = 65535;
-    else if(B_D<=10)
-        B_D = 10;
+    else if(B_D<=0)
+        B_D = 0;
+
     if(H_D>65535)
         H_D = 65535;
-    else if(H_D<=10)
-        H_D = 10;
+    else if(H_D<=0)
+        H_D = 0;
+
     if(B_G>65535)
         B_G = 65535;
-    else if(B_G<=10)
-        B_G = 10;
+    else if(B_G<=0)
+        B_G = 0;
+
     if(H_G>65535)
         H_G = 65535;
-    else if(H_G<=10)
-        H_G = 10;
+    else if(H_G<=0)
+        H_G = 0;
 
     cmd.Values.motor_B_D = (unsigned short) B_D;
     cmd.Values.motor_B_G = (unsigned short) B_G;
@@ -88,12 +86,6 @@ void Preprocessor::on_timer_timeout() {
     emit(command_changed(cmd));
 }
 
-void Preprocessor::apply_filter(unsigned long *B_D, unsigned long *H_D, unsigned long *B_G, unsigned long *H_G) {
-    *H_G = *H_G + _x1.Values.motor_H_G/6 + _y1.Values.motor_H_G/3 + _y2.Values.motor_H_G/6;
-    *H_D = *H_D + _x1.Values.motor_H_D/6 + _y1.Values.motor_H_D/3 + _y2.Values.motor_H_D/6;
-    *B_D = *B_D + _x1.Values.motor_B_G/6 + _y1.Values.motor_B_G/3 + _y2.Values.motor_B_G/6;
-    *B_G = *B_G + _x1.Values.motor_B_D/6 + _y1.Values.motor_B_D/3 + _y2.Values.motor_B_D/6;
-}
 
 // Pad joysticks
 void Preprocessor::on_axisLeftXChanged(double value) {
@@ -132,6 +124,14 @@ void Preprocessor::on_buttonR2Changed(double value) {
 // Pad events
 void Preprocessor::on_connectedChanged(bool value) {
     emit(connected(value));
+}
+
+void Preprocessor::on_acc_scale_changed(int value) {
+    _acc_scale = value;
+}
+
+void Preprocessor::on_pitch_scale_changed(int value) {
+    _pitch_scale = value;
 }
 
 

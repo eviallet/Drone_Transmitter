@@ -32,21 +32,21 @@ public slots:
     void on_buttonL2Changed(double value);
     void on_buttonR2Changed(double value);
     void on_connectedChanged(bool value);
+
+    void on_acc_scale_changed(int value);
+    void on_pitch_scale_changed(int value);
 private slots:
     void on_timer_timeout();
-    void apply_filter(unsigned long *,unsigned long *,unsigned long *,unsigned long *);
 private:
     static int map(int,int,int,int,int);
 private:
     QGamepad *pad;
     Command cmd;
     QTimer *_timer;
-    double _roll = 1, _pitch = 1, _acc = 1;
+    double _roll = 0 , _roll_prev = 0, _pitch = 0,_pitch_prev = 0, _acc = 0;
 
-
-    Command _x1;
-    Command _y1;
-    Command _y2;
+    int _acc_scale = 10;
+    int _pitch_scale = 7500;
 };
 
 #endif // PREPROCESSOR_H

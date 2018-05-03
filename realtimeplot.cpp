@@ -35,23 +35,7 @@ void RealTimePlot::show_average(bool show) {
 }
 
 
-void RealTimePlot::set_update_time(int msec) {
-    _timed = true;
-    _timer = new QTimer;
-    _timer->setInterval(msec);
-    _timer->setSingleShot(false);
-    connect(_timer, &QTimer::timeout, this, &RealTimePlot::on_timer_timeout);
-}
-
-void RealTimePlot::on_timer_timeout() {
-    append(_series->at(_series->points().size()-1).y());
-}
-
-
 void RealTimePlot::append(int y, int x) {
-    if(_timed)
-        _timer->stop();
-
     if(_t_0==0)
         _t_0 = x;
     x-=_t_0;
@@ -64,7 +48,16 @@ void RealTimePlot::append(int y, int x) {
         _x_max += dx;
         _x_min += dx;
         chart()->axisX()->setRange(_x_min, _x_max);
+        /*for(int i=0; i<_series->points().size(); i++) {
+            if(_series->points().at(i).x()<_x_min) {
+                _series->remove(i);
+                i--;
+            } else
+                break;
+        }*/
     }
+
+    qDebug() << "Series size : " << QString::number(_series->points().size());
 
     if(y >= _y_max - 10) {
         int dy = y - _y_max + 10;
@@ -101,9 +94,6 @@ void RealTimePlot::append(int y, int x) {
         else
             chart()->axisY()->setTitleBrush(QBrush(QColor(232, 27, 27)));
     }
-
-    if(_timed)
-        _timer->start();
 }
 
 
