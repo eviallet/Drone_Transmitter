@@ -1,6 +1,8 @@
 # Drone
 Controlling a drone with Qt. Real time view of each motor's speed with QCharts
 
+<img src="capture.png" height="450" width="600">
+
 # Working
 * Gamepad controlling speed, tweakable at runtime (for live testing)
 * Real time plotting of speed and ping
