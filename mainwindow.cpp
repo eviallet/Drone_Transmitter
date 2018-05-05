@@ -3,6 +3,8 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    setWindowIcon(QIcon(":/icons/ic_launcher.png"));
+    setWindowTitle("Drone Controller");
 
     preprocessor = new Preprocessor();
 
@@ -60,6 +62,8 @@ void MainWindow::on_drone_connected() {
 }
 
 void MainWindow::on_drone_disconnected() {
+    ui->chart_ping->clear_data();
+    drone->terminate();
     delete drone;
     ui->connexion_box->setEnabled(true);
 }
@@ -71,10 +75,10 @@ void MainWindow::on_ping_received(int ms) {
 }
 
 void MainWindow::on_command_changed(Command cmd) {
-    ui->chart_drone_hg->append(cmd.Values.motor_H_G);
-    ui->chart_drone_hd->append(cmd.Values.motor_H_D);
-    ui->chart_drone_bg->append(cmd.Values.motor_B_G);
-    ui->chart_drone_bd->append(cmd.Values.motor_B_D);
+    ui->chart_drone_hg->append(cmd.motor_H_G);
+    ui->chart_drone_hd->append(cmd.motor_H_D);
+    ui->chart_drone_bg->append(cmd.motor_B_G);
+    ui->chart_drone_bd->append(cmd.motor_B_D);
 }
 
 MainWindow::~MainWindow() {

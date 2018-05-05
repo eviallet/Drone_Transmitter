@@ -2,16 +2,19 @@
 
 RealTimePlot::RealTimePlot(QWidget* parent) : QChartView(parent) {
     _series = new QSplineSeries;
+    _series->setUseOpenGL(true);
     _series_average = new QLineSeries;
 
     chart()->addSeries(_series);
     chart()->addSeries(_series_average);
-    chart()->setAnimationOptions(QChart::SeriesAnimations);
+    chart()->setAnimationOptions(QChart::NoAnimation);
     setRenderHint(QPainter::Antialiasing);
     chart()->createDefaultAxes();
     chart()->axisX()->setRange(_x_min, _x_max);
     chart()->axisY()->setRange(_y_min, _y_max);
     chart()->legend()->hide();
+
+    disconnect(_series, SIGNAL(pointRemoved(int)), this, SLOT(update()));
 }
 
 
@@ -43,28 +46,29 @@ void RealTimePlot::append(int y, int x) {
     _series->append(x, y);
 
 
+    // Move the graph with the data
     if(x >= _x_max - 100) {
         int dx = x - _x_max + 100;
         _x_max += dx;
         _x_min += dx;
         chart()->axisX()->setRange(_x_min, _x_max);
-        /*for(int i=0; i<_series->points().size(); i++) {
-            if(_series->points().at(i).x()<_x_min) {
-                _series->remove(i);
-                i--;
-            } else
-                break;
-        }*/
+
+        // Removing out of range data to avoid uncontrolled CPU usage
+        while(_series->at(0).x() < _x_min)
+            _series->remove(0);
+
+        // qDebug() << "Series size : " << QString::number(_series->points().size());
     }
 
-    qDebug() << "Series size : " << QString::number(_series->points().size());
 
+    // Rescale y axis if values goes too high
     if(y >= _y_max - 10) {
         int dy = y - _y_max + 10;
         _y_max += dy;
         chart()->axisY()->setRange(_y_min, _y_max);
     }
 
+    // Here, used for ping : draw a horizontal line to show the average ping value over the lasts 10 seconds
     if(_show_average) {
 
         int sum = 0, count = 0;
@@ -96,4 +100,6 @@ void RealTimePlot::append(int y, int x) {
     }
 }
 
-
+void RealTimePlot::clear_data() {
+    _series->clear();
+}

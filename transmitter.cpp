@@ -3,7 +3,7 @@
 Transmitter::Transmitter() {
     // Ping
     _ping_timer = new QTimer;
-    _ping_timer->setInterval(PING_MAX_DELAY_MS);
+    _ping_timer->setInterval(PING_TIMEOUT_DELAY_MS);
     _ping_timer->setSingleShot(true);
     connect(_ping_timer, SIGNAL(timeout()), this, SLOT(on_ping_timeout()));
     connect(this, SIGNAL(start_ping()), this, SLOT(ping()));
@@ -17,7 +17,7 @@ Transmitter::Transmitter() {
     // Data socket
     _socket_data = new QTcpSocket;
     connect(_socket_data, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(on_socket_data_error(QAbstractSocket::SocketError)));
-    connect(_socket_data, SIGNAL(connected()), this, SLOT(on_socket_data_connected()));
+    connect(_socket_data, SIGNAL(disconnected()), this, SLOT(on_socket_disconnected()));
     connect(_socket_data, SIGNAL(readyRead()), this, SLOT(on_socket_data_readyRead()));
 }
 
@@ -47,8 +47,11 @@ void Transmitter::on_socket_data_connected() {
     emit(connected());
 }
 
+void Transmitter::on_socket_disconnected() {
+    _is_connected = false;
+}
+
 void Transmitter::on_socket_data_error(QAbstractSocket::SocketError e) {
-    emit(error());
     qWarning() << "Data - Socket error :" << e;
 }
 
@@ -57,10 +60,11 @@ void Transmitter::on_socket_data_readyRead() {
 }
 
 void Transmitter::send(Command cmd) {
-    _socket_data->write(cmd.Bytes);
+    if(_socket_data->state()==QAbstractSocket::ConnectedState && !is_equal(cmd,_last_command)) {
+        qDebug() << "Wrote " << QString::number(_socket_data->write(QByteArray::fromRawData(cmd.Bytes, 4*sizeof(short)).data())) << " bytes to _data";
+        _last_command = cmd;
+    }
 }
-
-
 
 
 
@@ -77,7 +81,7 @@ void Transmitter::on_socket_ping_error(QAbstractSocket::SocketError e) {
 void Transmitter::on_socket_ping_readyRead() {
     _socket_ping->readAll();
     _last_ping_finished = true;
-    emit(ping_response(PING_MAX_DELAY_MS-_ping_timer->remainingTime()));
+    emit(ping_response(PING_TIMEOUT_DELAY_MS-_ping_timer->remainingTime()));
     _ping_timer->stop();
 }
 

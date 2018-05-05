@@ -17,7 +17,8 @@ SOURCES += \
         mainwindow.cpp \
     transmitter.cpp \
     preprocessor.cpp \
-    realtimeplot.cpp
+    realtimeplot.cpp \
+    packet.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -28,3 +29,6 @@ HEADERS += \
 
 FORMS += \
         mainwindow.ui
+
+RESOURCES += \
+    resources.qrc

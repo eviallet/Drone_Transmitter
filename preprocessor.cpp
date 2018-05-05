@@ -8,10 +8,10 @@ Preprocessor::Preprocessor() {
     _timer->setSingleShot(false);
     connect(_timer, &QTimer::timeout, this, &Preprocessor::on_timer_timeout);
 
-    cmd.Values.motor_B_D = 0;
-    cmd.Values.motor_H_D = 0;
-    cmd.Values.motor_H_G = 0;
-    cmd.Values.motor_B_G = 0;
+    cmd.motor_B_D = 0;
+    cmd.motor_H_D = 0;
+    cmd.motor_H_G = 0;
+    cmd.motor_B_G = 0;
 
     // Pad joysticks
     connect(pad, SIGNAL(axisLeftXChanged(double)), this, SLOT(on_axisLeftXChanged(double)));
@@ -35,10 +35,10 @@ void Preprocessor::preprocess_speed() {
 }
 
 void Preprocessor::on_timer_timeout() {
-    long B_D = cmd.Values.motor_B_D + _acc*_acc_scale;
-    long H_D = cmd.Values.motor_H_D + _acc*_acc_scale;
-    long B_G = cmd.Values.motor_B_G + _acc*_acc_scale;
-    long H_G = cmd.Values.motor_H_G + _acc*_acc_scale;
+    long B_D = cmd.motor_B_D + _acc*_acc_scale;
+    long H_D = cmd.motor_H_D + _acc*_acc_scale;
+    long B_G = cmd.motor_B_G + _acc*_acc_scale;
+    long H_G = cmd.motor_H_G + _acc*_acc_scale;
 
     H_D+=(_pitch-_pitch_prev)*_pitch_scale;
     B_D+=(_pitch-_pitch_prev)*_pitch_scale;
@@ -74,14 +74,14 @@ void Preprocessor::on_timer_timeout() {
     else if(H_G<=0)
         H_G = 0;
 
-    cmd.Values.motor_B_D = (unsigned short) B_D;
-    cmd.Values.motor_B_G = (unsigned short) B_G;
-    cmd.Values.motor_H_D = (unsigned short) H_D;
-    cmd.Values.motor_H_G = (unsigned short) H_G;
+    cmd.motor_B_D = (unsigned short) B_D;
+    cmd.motor_B_G = (unsigned short) B_G;
+    cmd.motor_H_D = (unsigned short) H_D;
+    cmd.motor_H_G = (unsigned short) H_G;
 
-    // qDebug() <<  "acc " << QString::number(_acc) <<  "pitch " << QString::number(_pitch) <<  "roll " << QString::number(_roll);
-    qDebug() << " HG " << QString::number(cmd.Values.motor_H_G) << " HD " << QString::number(cmd.Values.motor_H_D)
-             << " BG " << QString::number(cmd.Values.motor_B_G) << " BD " << QString::number(cmd.Values.motor_B_D);
+    //qDebug() <<  "acc " << QString::number(_acc) <<  "pitch " << QString::number(_pitch) <<  "roll " << QString::number(_roll);
+    //qDebug() << " HG " << QString::number(cmd.motor_H_G) << " HD " << QString::number(cmd.motor_H_D)
+    //         << " BG " << QString::number(cmd.motor_B_G) << " BD " << QString::number(cmd.motor_B_D);
 
     emit(command_changed(cmd));
 }

@@ -10,8 +10,8 @@
 
 #include "packet.h"
 
-#define PING_DELAY_MS 100
-#define PING_MAX_DELAY_MS 250
+#define PING_DELAY_MS 200
+#define PING_TIMEOUT_DELAY_MS 250
 
 class Transmitter : public QThread {
     Q_OBJECT
@@ -20,9 +20,7 @@ public:
     void run() override;
 signals:
     void connected();
-    void error();
     void ping_response(int ms);
-    void disconnected();
     void start_ping();
 public slots:
     void connect_to(int address1, int address2);
@@ -37,6 +35,7 @@ private slots:
     void on_socket_data_connected();
     void on_socket_data_error(QAbstractSocket::SocketError error);
     void on_socket_data_readyRead();
+    void on_socket_disconnected();
 private:
     QTimer *_ping_timer;
     QTcpSocket *_socket_data;
@@ -45,6 +44,7 @@ private:
     bool _is_connected = false;
     int _last_ping_millis = 0;
     bool _last_ping_finished = true;
+    Command _last_command;
 };
 
 #endif // TRANSMITTER_H

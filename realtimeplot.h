@@ -21,6 +21,7 @@ public slots:
     void set_axis_names(QString x, QString y);
     void show_average(bool show);
     void set_ranges(int xmin, int xmax, int ymin, int ymax);
+    void clear_data();
 private:
     QSplineSeries *_series;
     QLineSeries *_series_average;
