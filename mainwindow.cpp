@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(preprocessor, &Preprocessor::left_shoulder, this, &MainWindow::on_left_shoulder_moved);
     connect(preprocessor, &Preprocessor::right_shoulder, this, &MainWindow::on_right_shoulder_moved);
     connect(preprocessor, &Preprocessor::connected, this, &MainWindow::on_gamepad_event);
+    connect(preprocessor, &Preprocessor::y_button, this, &MainWindow::on_y_pressed);
 
     _lx = ui->left_stick_icon->x();
     _ly = ui->left_stick_icon->y();
@@ -60,6 +61,13 @@ void MainWindow::on_gamepad_event(bool connected) {
         ui->gamepad_connected->setPixmap(QPixmap::fromImage(QImage(":/buttons/btn_connected")));
     else
         ui->gamepad_connected->setPixmap(QPixmap::fromImage(QImage(":/buttons/btn_disconnected")));
+}
+
+void MainWindow::on_y_pressed(bool pressed) {
+    if(pressed)
+        ui->xbox_y->setPixmap(QPixmap::fromImage(QImage(":/icons/ic_y_pressed")));
+    else
+        ui->xbox_y->setPixmap(QPixmap::fromImage(QImage(":/icons/ic_y")));
 }
 
 void MainWindow::on_left_stick_moved(int dx, int dy) {

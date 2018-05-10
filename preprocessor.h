@@ -19,6 +19,7 @@ signals:
     void right_stick(int,int);
     void left_shoulder(int);
     void right_shoulder(int);
+    void y_button(bool);
     void connected(bool);
     void command_changed(Command);
 public slots:
@@ -34,6 +35,7 @@ public slots:
     void on_pitch_scale_changed(int value);
 private slots:
     void on_timer_timeout();
+    void on_y_button_pressed(bool);
 private:
     static int map(int,int,int,int,int);
 private:

@@ -4,6 +4,8 @@
         <file>ic_gamepad.png</file>
         <file>ic_stick.png</file>
         <file>ic_shoulders.png</file>
+        <file>ic_y.png</file>
+        <file>ic_y_pressed.png</file>
     </qresource>
     <qresource prefix="/buttons">
         <file>btn_connected.png</file>
