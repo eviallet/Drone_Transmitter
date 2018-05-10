@@ -14,14 +14,11 @@ class Preprocessor : public QObject {
     Q_OBJECT
 public:
     Preprocessor();
-    void preprocess_speed();
 signals:
-    void axisLX(int);
-    void axisLY(int);
-    void axisRX(int);
-    void axisRY(int);
-    void axisL2(int);
-    void axisR2(int);
+    void left_stick(int,int);
+    void right_stick(int,int);
+    void left_shoulder(int);
+    void right_shoulder(int);
     void connected(bool);
     void command_changed(Command);
 public slots:

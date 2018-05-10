@@ -1,5 +1,16 @@
 <RCC>
     <qresource prefix="/icons">
         <file>ic_launcher.png</file>
+        <file>ic_gamepad.png</file>
+        <file>ic_stick.png</file>
+        <file>ic_shoulders.png</file>
+    </qresource>
+    <qresource prefix="/buttons">
+        <file>btn_connected.png</file>
+        <file>btn_disconnected.png</file>
+    </qresource>
+    <qresource prefix="/backgrounds">
+        <file>bkg_stick.png</file>
+        <file>bkg_shoulders.png</file>
     </qresource>
 </RCC>

@@ -28,13 +28,12 @@ Preprocessor::Preprocessor() {
     _timer->start();
 }
 
-void Preprocessor::preprocess_speed() {
+
+void Preprocessor::on_timer_timeout() {
     _pitch = (double)-pad->axisLeftX();
     _roll = (double)-pad->axisLeftY();
     _acc = (pad->buttonR2()-pad->buttonL2()) * 100;
-}
 
-void Preprocessor::on_timer_timeout() {
     long B_D = cmd.motor_B_D + _acc*_acc_scale;
     long H_D = cmd.motor_H_D + _acc*_acc_scale;
     long B_G = cmd.motor_B_G + _acc*_acc_scale;
@@ -57,22 +56,22 @@ void Preprocessor::on_timer_timeout() {
     if(B_D>65535)
         B_D = 65535;
     else if(B_D<=0)
-        B_D = 0;
+        B_D = 1;
 
     if(H_D>65535)
         H_D = 65535;
     else if(H_D<=0)
-        H_D = 0;
+        H_D = 1;
 
     if(B_G>65535)
         B_G = 65535;
     else if(B_G<=0)
-        B_G = 0;
+        B_G = 1;
 
     if(H_G>65535)
         H_G = 65535;
     else if(H_G<=0)
-        H_G = 0;
+        H_G = 1;
 
     cmd.motor_B_D = (unsigned short) B_D;
     cmd.motor_B_G = (unsigned short) B_G;
@@ -86,39 +85,28 @@ void Preprocessor::on_timer_timeout() {
     emit(command_changed(cmd));
 }
 
+#define FACTOR 40
 
 // Pad joysticks
 void Preprocessor::on_axisLeftXChanged(double value) {
-    value*=100;
-    preprocess_speed();
-    emit(axisLX(value));
+    emit(left_stick(value*FACTOR, pad->axisLeftY()*FACTOR));
 }
 void Preprocessor::on_axisLeftYChanged(double value) {
-    value = -value*100;
-    preprocess_speed();
-    emit(axisLY(value));
+    emit(left_stick(pad->axisLeftX()*FACTOR,value*FACTOR));
 }
 void Preprocessor::on_axisRightXChanged(double value) {
-    value*=100;
-    preprocess_speed();
-    emit(axisRX(value));
+    emit(right_stick(value*FACTOR, pad->axisRightY()*FACTOR));
 }
 void Preprocessor::on_axisRightYChanged(double value) {
-    value = -value*100;
-    preprocess_speed();
-    emit(axisRY(value));
+    emit(right_stick(pad->axisRightX()*FACTOR,value*FACTOR));
 }
 
 // Pad shoulders
 void Preprocessor::on_buttonL2Changed(double value) {
-    value*=100;
-    preprocess_speed();
-    emit(axisL2(value));
+    emit(left_shoulder(-value*FACTOR*2));
 }
 void Preprocessor::on_buttonR2Changed(double value) {
-    value*=100;
-    preprocess_speed();
-    emit(axisR2(value));
+    emit(right_shoulder(-value*FACTOR*2));
 }
 
 // Pad events

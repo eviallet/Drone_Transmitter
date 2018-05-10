@@ -61,7 +61,8 @@ void Transmitter::on_socket_data_readyRead() {
 
 void Transmitter::send(Command cmd) {
     if(_socket_data->state()==QAbstractSocket::ConnectedState && !is_equal(cmd,_last_command)) {
-        qDebug() << "Wrote " << QString::number(_socket_data->write(QByteArray::fromRawData(cmd.Bytes, 4*sizeof(short)).data())) << " bytes to _data";
+        //qDebug() << "Wrote " << QString::number(_socket_data->write(QByteArray::fromRawData(cmd.Bytes, 4*sizeof(short)).data())) << " bytes to _data";
+        _socket_data->write(QByteArray::fromRawData(cmd.Bytes, 4*sizeof(short)).data());
         _last_command = cmd;
     }
 }

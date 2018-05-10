@@ -13,6 +13,7 @@ RealTimePlot::RealTimePlot(QWidget* parent) : QChartView(parent) {
     chart()->axisX()->setRange(_x_min, _x_max);
     chart()->axisY()->setRange(_y_min, _y_max);
     chart()->legend()->hide();
+    chart()->setTheme(QChart::ChartThemeBlueIcy);
 
     disconnect(_series, SIGNAL(pointRemoved(int)), this, SLOT(update()));
 }
