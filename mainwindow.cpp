@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    setWindowIcon(QIcon(":/icons/ic_launcher.png"));
+    setWindowIcon(QIcon(":/icons/images/ic_launcher.png"));
     setWindowTitle("Drone Controller");
     showFullScreen();
 
@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(preprocessor, &Preprocessor::right_shoulder, this, &MainWindow::on_right_shoulder_moved);
     connect(preprocessor, &Preprocessor::connected, this, &MainWindow::on_gamepad_event);
     connect(preprocessor, &Preprocessor::y_button, this, &MainWindow::on_y_pressed);
+    connect(preprocessor, &Preprocessor::x_button, this, &MainWindow::on_x_pressed);
+    connect(preprocessor, &Preprocessor::b_button, this, &MainWindow::on_b_pressed);
+    connect(preprocessor, &Preprocessor::a_button, this, &MainWindow::on_a_pressed);
 
     _lx = ui->left_stick_icon->x();
     _ly = ui->left_stick_icon->y();
@@ -58,18 +61,38 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 // Gamepad
 void MainWindow::on_gamepad_event(bool connected) {
     if(connected)
-        ui->gamepad_connected->setPixmap(QPixmap::fromImage(QImage(":/buttons/btn_connected")));
+        ui->gamepad_connected->setPixmap(QPixmap::fromImage(QImage(":/icons/images/btn_connected.png")));
     else
-        ui->gamepad_connected->setPixmap(QPixmap::fromImage(QImage(":/buttons/btn_disconnected")));
+        ui->gamepad_connected->setPixmap(QPixmap::fromImage(QImage(":/icons/images/btn_disconnected.png")));
 }
 
+// Gamepad buttons
 void MainWindow::on_y_pressed(bool pressed) {
     if(pressed)
-        ui->xbox_y->setPixmap(QPixmap::fromImage(QImage(":/icons/ic_y_pressed")));
+        ui->xbox_y->setPixmap(QPixmap::fromImage(QImage(":/buttons/images/ic_y_pressed.png")));
     else
-        ui->xbox_y->setPixmap(QPixmap::fromImage(QImage(":/icons/ic_y")));
+        ui->xbox_y->setPixmap(QPixmap::fromImage(QImage(":/buttons/images/ic_y.png")));
+}
+void MainWindow::on_x_pressed(bool pressed) {
+    if(pressed)
+        ui->xbox_x->setPixmap(QPixmap::fromImage(QImage(":/buttons/images/ic_x_pressed.png")));
+    else
+        ui->xbox_x->setPixmap(QPixmap::fromImage(QImage(":/buttons/images/ic_x.png")));
+}
+void MainWindow::on_b_pressed(bool pressed) {
+    if(pressed)
+        ui->xbox_b->setPixmap(QPixmap::fromImage(QImage(":/buttons/images/ic_b_pressed.png")));
+    else
+        ui->xbox_b->setPixmap(QPixmap::fromImage(QImage(":/buttons/images/ic_b.png")));
+}
+void MainWindow::on_a_pressed(bool pressed) {
+    if(pressed)
+        ui->xbox_a->setPixmap(QPixmap::fromImage(QImage(":/buttons/images/ic_a_pressed.png")));
+    else
+        ui->xbox_a->setPixmap(QPixmap::fromImage(QImage(":/buttons/images/ic_a.png")));
 }
 
+// Gamepad sticks
 void MainWindow::on_left_stick_moved(int dx, int dy) {
     ui->left_stick_icon->move(_lx+dx, _ly+dy);
 }
@@ -78,6 +101,7 @@ void MainWindow::on_right_stick_moved(int dx, int dy) {
     ui->right_stick_icon->move(_rx+dx, _ry+dy);
 }
 
+// Gamepad shoulders
 void MainWindow::on_left_shoulder_moved(int dy) {
     ui->left_shoulder->move(ui->left_shoulder->x(), _ls+dy);
 }

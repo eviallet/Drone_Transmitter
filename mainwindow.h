@@ -35,6 +35,9 @@ private slots:
     void on_left_shoulder_moved(int dy);
     void on_right_shoulder_moved(int dy);
     void on_y_pressed(bool pressed);
+    void on_x_pressed(bool pressed);
+    void on_b_pressed(bool pressed);
+    void on_a_pressed(bool pressed);
 private:
     Ui::MainWindow *ui;
     Transmitter *drone;

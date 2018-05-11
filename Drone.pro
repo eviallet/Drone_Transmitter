@@ -9,8 +9,6 @@ QT += core gui gamepad network widgets charts
 TARGET = Drone
 TEMPLATE = app
 
-DEFINES += QT_DEPRECATED_WARNINGS
-
 
 SOURCES += \
         main.cpp \

@@ -31,7 +31,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>410</y>
+      <y>430</y>
       <width>181</width>
       <height>131</height>
      </rect>
@@ -175,7 +175,7 @@
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>410</y>
+      <y>430</y>
       <width>197</width>
       <height>131</height>
      </rect>
@@ -245,7 +245,7 @@
     </property>
     <property name="icon">
      <iconset resource="resources.qrc">
-      <normaloff>:/buttons/btn_disconnected.png</normaloff>:/buttons/btn_disconnected.png</iconset>
+      <normaloff>:/icons/images/btn_disconnected.png</normaloff>:/icons/images/btn_disconnected.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -270,7 +270,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/icons/ic_stick.png</pixmap>
+     <pixmap resource="resources.qrc">:/icons/images/ic_stick.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -289,7 +289,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/icons/ic_stick.png</pixmap>
+     <pixmap resource="resources.qrc">:/icons/images/ic_stick.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -308,7 +308,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/backgrounds/bkg_stick.png</pixmap>
+     <pixmap resource="resources.qrc">:/backgrounds/images/bkg_stick.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -327,7 +327,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/backgrounds/bkg_stick.png</pixmap>
+     <pixmap resource="resources.qrc">:/backgrounds/images/bkg_stick.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -346,7 +346,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/backgrounds/bkg_shoulders.png</pixmap>
+     <pixmap resource="resources.qrc">:/backgrounds/images/bkg_shoulders.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -365,7 +365,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/backgrounds/bkg_shoulders.png</pixmap>
+     <pixmap resource="resources.qrc">:/backgrounds/images/bkg_shoulders.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -384,7 +384,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/icons/ic_shoulders.png</pixmap>
+     <pixmap resource="resources.qrc">:/icons/images/ic_shoulders.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -403,7 +403,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/icons/ic_shoulders.png</pixmap>
+     <pixmap resource="resources.qrc">:/icons/images/ic_shoulders.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -425,7 +425,7 @@
      <enum>Qt::AutoText</enum>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/icons/ic_gamepad.png</pixmap>
+     <pixmap resource="resources.qrc">:/icons/images/ic_gamepad.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -444,7 +444,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/buttons/btn_disconnected.png</pixmap>
+     <pixmap resource="resources.qrc">:/icons/images/btn_disconnected.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -454,7 +454,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>290</y>
+      <y>270</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -463,7 +463,64 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/icons/ic_y.png</pixmap>
+     <pixmap resource="resources.qrc">:/buttons/images/ic_y.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="xbox_x">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>300</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/buttons/images/ic_x.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="xbox_a">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>330</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/buttons/images/ic_a.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="xbox_b">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>300</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="resources.qrc">:/buttons/images/ic_b.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>

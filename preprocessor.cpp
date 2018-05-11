@@ -24,6 +24,9 @@ Preprocessor::Preprocessor() {
     // Pad events
     connect(pad, SIGNAL(connectedChanged(bool)), this, SLOT(on_connectedChanged(bool)));
     connect(pad, SIGNAL(buttonYChanged(bool)), this, SLOT(on_y_button_pressed(bool)));
+    connect(pad, SIGNAL(buttonXChanged(bool)), this, SLOT(on_x_button_pressed(bool)));
+    connect(pad, SIGNAL(buttonBChanged(bool)), this, SLOT(on_b_button_pressed(bool)));
+    connect(pad, SIGNAL(buttonAChanged(bool)), this, SLOT(on_a_button_pressed(bool)));
 
 
     _timer->start();
@@ -121,6 +124,23 @@ void Preprocessor::on_y_button_pressed(bool value) {
     cmd.motor_H_D = 0;
     cmd.motor_H_G = 0;
     emit(y_button(value));
+}
+void Preprocessor::on_x_button_pressed(bool value) {
+    emit(x_button(value));
+}
+void Preprocessor::on_b_button_pressed(bool value) {
+    if(value)
+        _acc_scale/=2;
+    else
+        _acc_scale*=2;
+    emit(b_button(value));
+}
+void Preprocessor::on_a_button_pressed(bool value) {
+    if(value)
+        _acc_scale*=2;
+    else
+        _acc_scale/=2;
+    emit(a_button(value));
 }
 
 void Preprocessor::on_acc_scale_changed(int value) {

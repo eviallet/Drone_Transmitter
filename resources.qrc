@@ -1,18 +1,24 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>ic_launcher.png</file>
-        <file>ic_gamepad.png</file>
-        <file>ic_stick.png</file>
-        <file>ic_shoulders.png</file>
-        <file>ic_y.png</file>
-        <file>ic_y_pressed.png</file>
+        <file>images/ic_launcher.png</file>
+        <file>images/ic_shoulders.png</file>
+        <file>images/ic_stick.png</file>
+        <file>images/ic_gamepad.png</file>
+        <file>images/btn_connected.png</file>
+        <file>images/btn_disconnected.png</file>
     </qresource>
     <qresource prefix="/buttons">
-        <file>btn_connected.png</file>
-        <file>btn_disconnected.png</file>
+        <file>images/ic_a.png</file>
+        <file>images/ic_a_pressed.png</file>
+        <file>images/ic_b.png</file>
+        <file>images/ic_b_pressed.png</file>
+        <file>images/ic_x.png</file>
+        <file>images/ic_x_pressed.png</file>
+        <file>images/ic_y.png</file>
+        <file>images/ic_y_pressed.png</file>
     </qresource>
     <qresource prefix="/backgrounds">
-        <file>bkg_stick.png</file>
-        <file>bkg_shoulders.png</file>
+        <file>images/bkg_shoulders.png</file>
+        <file>images/bkg_stick.png</file>
     </qresource>
 </RCC>
