@@ -31,8 +31,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Command
     connect(preprocessor, &Preprocessor::command_changed, this, &MainWindow::on_command_changed);
-    connect(ui->scale_box_acc, SIGNAL(valueChanged(int)), preprocessor, SLOT(on_acc_scale_changed(int)));
-    connect(ui->scale_box_pitch, SIGNAL(valueChanged(int)), preprocessor, SLOT(on_pitch_scale_changed(int)));
+    connect(ui->scale_box_acc,  SIGNAL(valueChanged(int)), preprocessor, SLOT(on_acc_scale_changed(int)));
+    connect(ui->scale_box_pitch,SIGNAL(valueChanged(int)), preprocessor, SLOT(on_pitch_scale_changed(int)));
+    connect(ui->offset_enabled, &QCheckBox::toggled, preprocessor, &Preprocessor::on_offsets_enabled);
 
 
     // Charts
@@ -143,6 +144,14 @@ void MainWindow::on_command_changed(Command cmd) {
     ui->chart_drone_hd->append(cmd.motor_H_D);
     ui->chart_drone_bg->append(cmd.motor_B_G);
     ui->chart_drone_bd->append(cmd.motor_B_D);
+}
+
+void MainWindow::on_offset_changed_clicked() {
+    preprocessor->on_offsets_changed(
+                ui->spin_offset_hg->value(),
+                ui->spin_offset_hd->value(),
+                ui->spin_offset_bg->value(),
+                ui->spin_offset_bd->value());
 }
 
 MainWindow::~MainWindow() {

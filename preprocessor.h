@@ -9,6 +9,10 @@
 
 #include "packet.h"
 
+#define LOW_LIMIT 0
+#define HIGH_LIMIT 65535
+#define FACTOR 40
+
 
 class Preprocessor : public QObject {
     Q_OBJECT
@@ -28,6 +32,8 @@ signals:
 public slots:
     void on_acc_scale_changed(int value);
     void on_pitch_scale_changed(int value);
+    void on_offsets_changed(int,int,int,int);
+    void on_offsets_enabled(bool);
 private slots:
     void on_timer_timeout();
     void on_y_button_pressed(bool);
@@ -45,12 +51,15 @@ private:
     static int map(int,int,int,int,int);
 private:
     QGamepad *pad;
-    Command cmd;
+    Command uniform_cmd;
     QTimer *_timer;
-    double _roll = 0 , _roll_prev = 0, _pitch = 0,_pitch_prev = 0, _acc = 0;
+    double _roll = 0 , _pitch = 0, _acc = 0;
 
     int _acc_scale = 10;
-    int _pitch_scale = 7500;
+    int _pitch_scale = 10;
+
+    int _offset_hg = 0, _offset_hd = 0, _offset_bg = 0, _offset_bd = 0;
+    bool _offsets_enabled = false;
 };
 
 #endif // PREPROCESSOR_H

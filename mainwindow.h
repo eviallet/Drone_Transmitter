@@ -38,6 +38,7 @@ private slots:
     void on_x_pressed(bool pressed);
     void on_b_pressed(bool pressed);
     void on_a_pressed(bool pressed);
+    void on_offset_changed_clicked();
 private:
     Ui::MainWindow *ui;
     Transmitter *drone;
