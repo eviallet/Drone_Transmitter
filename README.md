@@ -10,4 +10,4 @@ Receiver : https://github.com/EViallet/Drone_Receiver
 * Real time plotting of speed and ping
 
 # TODO
-* PID or other kind of corrector when the drone will take off -> embedded sensors (infrared sonar for altitude, gyroscope for roll/pitch/yaw)
+* Infrared sonar for altitude
