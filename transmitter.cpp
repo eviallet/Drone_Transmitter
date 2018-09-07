@@ -4,7 +4,8 @@ Transmitter::Transmitter() {
     // Data socket
     _socket_data = new QTcpSocket;
     connect(_socket_data, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(on_socket_data_error(QAbstractSocket::SocketError)));
-    connect(_socket_data, SIGNAL(disconnected()), this, SLOT(on_socket_disconnected()));
+    connect(_socket_data, SIGNAL(connected()), this, SLOT(on_socket_data_connected()));
+    connect(_socket_data, SIGNAL(disconnected()), this, SLOT(on_socket_data_connected()));
     connect(_socket_data, SIGNAL(readyRead()), this, SLOT(on_socket_data_readyRead()));
 }
 
@@ -39,18 +40,15 @@ void Transmitter::send(Command cmd) {
     }
 }
 
-// TODO read input Sensor objeect
+// TODO don't skip on any data
 void Transmitter::on_socket_data_readyRead() {
-    while((_socket_data->bytesAvailable()%(4*sizeof(short))==0)&&_socket_data->bytesAvailable()!=0) {
-        QByteArray received = _socket_data->read(4*sizeof(short));
-        /*
-        Command cmd;
-        memcpy(cmd.Bytes, received.data(), 4*sizeof(short));
-        qDebug() << "Received : HG " << QString::number(cmd.speed) << " HD " << QString::number(cmd.yaw)
-                 << " BG " << QString::number(cmd.pitch) << " BD " << QString::number(cmd.roll);
-        emit(remote_sensor_infos(cmd));*/
+    while(_socket_data->bytesAvailable()>0) {
+        QByteArray received = _socket_data->readAll();
+        //qDebug() << QString("Reading %1 bytes.").arg(received.length());
+        //for(int i=0; i<received.length(); i++) {
+            //SensorData s = sensor_from_bytes(received.mid(i*4, i*4+4));
+            SensorData s = sensor_from_bytes(received.left(4*sizeof(float)));
+            emit(remote_sensor_infos(s));
+        //}
     }
-
-    if(_socket_data->bytesAvailable()>0)
-        _socket_data->readAll();
 }

@@ -3,10 +3,10 @@
 RealTimePlot::RealTimePlot(QWidget* parent) : QChartView(parent) {
     _series = new QSplineSeries;
     _series->setUseOpenGL(true);
-    _series_average = new QLineSeries;
+    //_series_average = new QLineSeries;
 
     chart()->addSeries(_series);
-    chart()->addSeries(_series_average);
+    //chart()->addSeries(_series_average);
     chart()->setAnimationOptions(QChart::NoAnimation);
     setRenderHint(QPainter::Antialiasing);
     chart()->createDefaultAxes();
@@ -15,6 +15,7 @@ RealTimePlot::RealTimePlot(QWidget* parent) : QChartView(parent) {
     chart()->legend()->hide();
     chart()->setTheme(QChart::ChartThemeBlueIcy);
 
+    // Important to avoid our graph to look weird when optimizing memory usage later
     disconnect(_series, SIGNAL(pointRemoved(int)), this, SLOT(update()));
 }
 
@@ -32,6 +33,47 @@ void RealTimePlot::set_axis_names(QString x, QString y) {
     _title_y = y;
     chart()->axisX()->setTitleText(x);
     chart()->axisY()->setTitleText(y);
+}
+
+void RealTimePlot::set_type(AYPR type) {
+    _type = type;
+    QPen pen = _series->pen();
+    switch(type) {
+    case ALT:
+        chart()->setTitle("Altitude");
+        pen.setColor(QColor::fromRgb(101, 66, 244));
+        break;
+    case YAW:
+        chart()->setTitle("Yaw");
+        pen.setColor(QColor::fromRgb(56, 165, 89));
+        break;
+    case PITCH:
+        chart()->setTitle("Pitch");
+        pen.setColor(QColor::fromRgb(181, 95, 30));
+        break;
+    case ROLL:
+        chart()->setTitle("Roll");
+        pen.setColor(QColor::fromRgb(44, 107, 163));
+        break;
+    }
+    _series->setPen(pen);
+}
+
+void RealTimePlot::append(SensorData x) {
+    switch(_type) {
+    case ALT:
+        append(x.alt);
+        break;
+    case YAW:
+        append(x.yaw);
+        break;
+    case PITCH:
+        append(x.pitch);
+        break;
+    case ROLL:
+        append(x.roll);
+        break;
+    }
 }
 
 
@@ -62,6 +104,10 @@ void RealTimePlot::append(int y, int x) {
     if(y >= _y_max - 10) {
         int dy = y - _y_max + 10;
         _y_max += dy;
+        chart()->axisY()->setRange(_y_min, _y_max);
+    } else if(y <= _y_min - 10) {
+        int dy = y + _y_min - 10;
+        _y_min += dy;
         chart()->axisY()->setRange(_y_min, _y_max);
     }
 

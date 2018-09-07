@@ -16,7 +16,7 @@ public:
 signals:
     void connected();
     void disconnected();
-    void remote_sensor_infos(Sensor);
+    void remote_sensor_infos(SensorData);
 public slots:
     void connect_to(int address, int address2);
     void send(Command cmd);

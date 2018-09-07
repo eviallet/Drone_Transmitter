@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1210</width>
-    <height>583</height>
+    <height>721</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,11 +15,14 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="connexion_box">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>30</x>
       <y>410</y>
-      <width>181</width>
+      <width>191</width>
       <height>131</height>
      </rect>
     </property>
@@ -68,7 +71,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="drone_connection">
+        <widget class="QPushButton" name="transmitter_connection">
          <property name="text">
           <string>Connexion</string>
          </property>
@@ -83,12 +86,12 @@
      <rect>
       <x>230</x>
       <y>410</y>
-      <width>197</width>
+      <width>201</width>
       <height>131</height>
      </rect>
     </property>
     <property name="title">
-     <string>PID</string>
+     <string>PID - Yaw</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="1" column="0">
@@ -96,12 +99,12 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Ti</string>
+          <string>y_Ti</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="double_spinbox_ti">
+        <widget class="QDoubleSpinBox" name="double_spinbox_yti">
          <property name="decimals">
           <number>8</number>
          </property>
@@ -120,12 +123,12 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Kp</string>
+          <string>Y_Kp</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="double_spinbox_kp">
+        <widget class="QDoubleSpinBox" name="double_spinbox_ykp">
          <property name="decimals">
           <number>8</number>
          </property>
@@ -144,12 +147,12 @@
        <item>
         <widget class="QLabel" name="label_8">
          <property name="text">
-          <string>Td</string>
+          <string>Y_Td</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="double_spinbox_td">
+        <widget class="QDoubleSpinBox" name="double_spinbox_ytd">
          <property name="decimals">
           <number>8</number>
          </property>
@@ -434,19 +437,220 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="drone_angle_graph">
+   <widget class="RealTimePlot" name="drone_angle_graph_yaw">
     <property name="geometry">
      <rect>
       <x>480</x>
       <y>0</y>
       <width>731</width>
-      <height>581</height>
+      <height>241</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>560</y>
+      <width>191</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>PID - Pitch</string>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="1" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>P_Ti</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="double_spinbox_pti">
+         <property name="decimals">
+          <number>8</number>
+         </property>
+         <property name="maximum">
+          <double>10000.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>P_Kp</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="double_spinbox_pkp">
+         <property name="decimals">
+          <number>8</number>
+         </property>
+         <property name="maximum">
+          <double>10000.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="2" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>P_Td</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="double_spinbox_ptd">
+         <property name="decimals">
+          <number>8</number>
+         </property>
+         <property name="maximum">
+          <double>10000.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>560</y>
+      <width>197</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>PID - Roll</string>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_4">
+     <item row="1" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <item>
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>R_Ti</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="double_spinbox_rti">
+         <property name="decimals">
+          <number>8</number>
+         </property>
+         <property name="maximum">
+          <double>10000.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <item>
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>R_Kp</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="double_spinbox_rkp">
+         <property name="decimals">
+          <number>8</number>
+         </property>
+         <property name="maximum">
+          <double>10000.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="2" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <item>
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>R_Td</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="double_spinbox_rtd">
+         <property name="decimals">
+          <number>8</number>
+         </property>
+         <property name="maximum">
+          <double>10000.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="RealTimePlot" name="drone_angle_graph_pitch">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>240</y>
+      <width>731</width>
+      <height>241</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="RealTimePlot" name="drone_angle_graph_roll">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>480</y>
+      <width>731</width>
+      <height>241</height>
      </rect>
     </property>
    </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>RealTimePlot</class>
+   <extends>QGraphicsView</extends>
+   <header>realtimeplot.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>
