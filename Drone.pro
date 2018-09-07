@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui gamepad network widgets charts
+QT += core gui gamepad network widgets charts 3dcore 3drender 3dinput 3dextras
 
 TARGET = Drone
 TEMPLATE = app
@@ -15,8 +15,8 @@ SOURCES += \
         mainwindow.cpp \
     transmitter.cpp \
     preprocessor.cpp \
-    realtimeplot.cpp \
-    packet.cpp
+    packet.cpp \
+    realtimeplot.cpp
 
 HEADERS += \
         mainwindow.h \

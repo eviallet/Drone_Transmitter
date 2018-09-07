@@ -4,16 +4,12 @@
 #include <QMainWindow>
 #include <QDebug>
 
-
-#include "realtimeplot.h"
 #include "transmitter.h"
 #include "preprocessor.h"
 
 namespace Ui {
     class MainWindow;
 }
-
-using namespace QtCharts;
 
 
 class MainWindow : public QMainWindow {
@@ -24,11 +20,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_drone_connection_clicked();
-    void on_drone_connected();
-    void on_drone_disconnected();
-    void on_ping_received(int ms);
-    void on_command_changed(Command cmd);
+    void on_transmitter_connection_clicked();
+    void on_transmitter_connected();
+    void on_transmitter_disconnected();
     void on_gamepad_event(bool connected);
     void on_left_stick_moved(int dx, int dy);
     void on_right_stick_moved(int dx, int dy);
@@ -38,10 +32,10 @@ private slots:
     void on_x_pressed(bool pressed);
     void on_b_pressed(bool pressed);
     void on_a_pressed(bool pressed);
-    void on_offset_changed_clicked();
+    void on_remote_sensor_infos_received(Sensor s);
 private:
     Ui::MainWindow *ui;
-    Transmitter *drone;
+    Transmitter *transmitter;
     Preprocessor *preprocessor;
 
     int _lx, _ly, _rx, _ry, _ls, _rs;

@@ -19,7 +19,6 @@ public:
 public slots:
     void append(int y, int x = QTime::currentTime().msecsSinceStartOfDay());
     void set_axis_names(QString x, QString y);
-    void show_average(bool show);
     void set_ranges(int xmin, int xmax, int ymin, int ymax);
     void clear_data();
 private:
@@ -30,7 +29,6 @@ private:
     int _y_min = 0;
     int _y_max = 10;
     int _t_0 = 0;
-    bool _show_average = true;
     QString _title_y;
 };
 

@@ -3,15 +3,10 @@
 Preprocessor::Preprocessor() {
     pad = new QGamepad();
 
-    _timer = new QTimer;
-    _timer->setInterval(50);
-    _timer->setSingleShot(false);
-    connect(_timer, &QTimer::timeout, this, &Preprocessor::on_timer_timeout);
-
-    uniform_cmd.motor_B_D = LOW_LIMIT;
-    uniform_cmd.motor_H_D = LOW_LIMIT;
-    uniform_cmd.motor_H_G = LOW_LIMIT;
-    uniform_cmd.motor_B_G = LOW_LIMIT;
+    _last_cmd.speed = LOW_LIMIT;
+    _last_cmd.yaw = LOW_LIMIT;
+    _last_cmd.pitch = LOW_LIMIT;
+    _last_cmd.roll = LOW_LIMIT;
 
     // Pad joysticks
     connect(pad, SIGNAL(axisLeftXChanged(double)), this, SLOT(on_axisLeftXChanged(double)));
@@ -29,100 +24,39 @@ Preprocessor::Preprocessor() {
     connect(pad, SIGNAL(buttonAChanged(bool)), this, SLOT(on_a_button_pressed(bool)));
 
 
-    _timer->start();
+    connect(this, &Preprocessor::compute_command, this, &Preprocessor::on_compute_command);
 }
 
 
-void Preprocessor::on_timer_timeout() {
+void Preprocessor::run() {
+    while(true) {
+        if(_last == 0)
+            _last = QDateTime::currentMSecsSinceEpoch();
+        else if(QDateTime::currentMSecsSinceEpoch() - _last >= 50) {
+            emit(compute_command());
+        }
+    }
+}
+
+void Preprocessor::on_compute_command() {
     _roll = (double)-pad->axisLeftX()*100;
     _pitch = (double)-pad->axisLeftY()*100;
     _acc = (pad->buttonR2()-pad->buttonL2()) * 100;
 
 
-    long H_G = uniform_cmd.motor_H_G + _acc*_acc_scale;
-    long H_D = uniform_cmd.motor_H_D + _acc*_acc_scale;
-    long B_G = uniform_cmd.motor_B_G + _acc*_acc_scale;
-    long B_D = uniform_cmd.motor_B_D + _acc*_acc_scale;
+    long speed = _last_cmd.speed + _acc*_acc_scale;
 
-    if(H_D>HIGH_LIMIT)
-        H_D = HIGH_LIMIT;
-    else if(H_D<=LOW_LIMIT)
-        H_D = LOW_LIMIT;
-
-    if(H_G>HIGH_LIMIT)
-        H_G = HIGH_LIMIT;
-    else if(H_G<=LOW_LIMIT)
-        H_G = LOW_LIMIT;
-
-    if(B_G>HIGH_LIMIT)
-        B_G = HIGH_LIMIT;
-    else if(B_G<=LOW_LIMIT)
-        B_G = LOW_LIMIT;
-
-    if(B_D>HIGH_LIMIT)
-        B_D = HIGH_LIMIT;
-    else if(B_D<=LOW_LIMIT)
-        B_D = LOW_LIMIT;
-
-    uniform_cmd.motor_H_G = (unsigned short) H_G;
-    uniform_cmd.motor_H_D = (unsigned short) H_D;
-    uniform_cmd.motor_B_G = (unsigned short) B_G;
-    uniform_cmd.motor_B_D = (unsigned short) B_D;
-
-
-    // + +
-    // + +
-    if(_offsets_enabled) {
-        H_G += _offset_hg;
-        H_D += _offset_hd;
-        B_G += _offset_bg;
-        B_D += _offset_bd;
-    }
-
-    // ^
-    // |
-    // v
-    H_G-=_pitch*_pitch_scale;
-    H_D-=_pitch*_pitch_scale;
-    B_G+=_pitch*_pitch_scale;
-    B_D+=_pitch*_pitch_scale;
-
-    // <->
-    H_G-=_roll*_pitch_scale;
-    H_D+=_roll*_pitch_scale;
-    B_G-=_roll*_pitch_scale;
-    B_D+=_roll*_pitch_scale;
-
-    if(H_D>HIGH_LIMIT)
-        H_D = HIGH_LIMIT;
-    else if(H_D<=LOW_LIMIT)
-        H_D = LOW_LIMIT;
-
-    if(H_G>HIGH_LIMIT)
-        H_G = HIGH_LIMIT;
-    else if(H_G<=LOW_LIMIT)
-        H_G = LOW_LIMIT;
-
-    if(B_G>HIGH_LIMIT)
-        B_G = HIGH_LIMIT;
-    else if(B_G<=LOW_LIMIT)
-        B_G = LOW_LIMIT;
-
-    if(B_D>HIGH_LIMIT)
-        B_D = HIGH_LIMIT;
-    else if(B_D<=LOW_LIMIT)
-        B_D = LOW_LIMIT;
+    if(speed>HIGH_LIMIT)
+        speed = HIGH_LIMIT;
+    else if(speed<=LOW_LIMIT)
+        speed = LOW_LIMIT;
 
 
     Command cmd;
-    cmd.motor_H_G = (unsigned short) H_G;
-    cmd.motor_H_D = (unsigned short) H_D;
-    cmd.motor_B_G = (unsigned short) B_G;
-    cmd.motor_B_D = (unsigned short) B_D;
-
-    //qDebug() <<  "acc " << QString::number(_acc) <<  "pitch " << QString::number_pitch <<  "roll " << QString::number_roll);
-    //qDebug() << " HG " << QString::number(cmd.motor_H_G) << " HD " << QString::number(cmd.motor_H_D)
-    //         << " BG " << QString::number(cmd.motor_B_G) << " BD " << QString::number(cmd.motor_B_D);
+    cmd.speed = (unsigned short) speed;
+    cmd.yaw = 0;
+    cmd.pitch = (unsigned short) _pitch;
+    cmd.roll = (unsigned short) _roll;
 
     emit(command_changed(cmd));
 }
@@ -156,10 +90,10 @@ void Preprocessor::on_connectedChanged(bool value) {
 }
 
 void Preprocessor::on_y_button_pressed(bool value) {
-    uniform_cmd.motor_B_D = 0;
-    uniform_cmd.motor_B_G = 0;
-    uniform_cmd.motor_H_D = 0;
-    uniform_cmd.motor_H_G = 0;
+    _last_cmd.speed = 0;
+    _last_cmd.yaw = 0;
+    _last_cmd.pitch = 0;
+    _last_cmd.roll = 0;
     emit(y_button(value));
 }
 void Preprocessor::on_x_button_pressed(bool value) {
@@ -193,20 +127,9 @@ void Preprocessor::on_pitch_scale_changed(int value) {
     _pitch_scale = value;
 }
 
-void Preprocessor::on_offsets_changed(int hg, int hd, int bg, int bd) {
-    _offset_hg = hg;
-    _offset_hd = hd;
-    _offset_bg = bg;
-    _offset_bd = bd;
-}
-
-void Preprocessor::on_offsets_enabled(bool enabled) {
-    _offsets_enabled = enabled;
-}
 
 
-
-// Literally copy/pasted from https://www.arduino.cc/reference/en/language/functions/math/map/
+// https://www.arduino.cc/reference/en/language/functions/math/map/
 int Preprocessor::map(int x, int in_min, int in_max, int out_min, int out_max) {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }

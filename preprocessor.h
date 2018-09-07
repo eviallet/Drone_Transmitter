@@ -1,11 +1,11 @@
 #ifndef PREPROCESSOR_H
 #define PREPROCESSOR_H
 
-#include <QObject>
+#include <QThread>
 #include <QGamepad>
 #include <QDebug>
 #include <QTime>
-#include <QTimer>
+#include <QDateTime>
 
 #include "packet.h"
 
@@ -14,11 +14,13 @@
 #define FACTOR 40
 
 
-class Preprocessor : public QObject {
+class Preprocessor : public QThread {
     Q_OBJECT
 public:
     Preprocessor();
+    void run() override;
 signals:
+    void compute_command();
     void left_stick(int,int);
     void right_stick(int,int);
     void left_shoulder(int);
@@ -32,10 +34,8 @@ signals:
 public slots:
     void on_acc_scale_changed(int value);
     void on_pitch_scale_changed(int value);
-    void on_offsets_changed(int,int,int,int);
-    void on_offsets_enabled(bool);
 private slots:
-    void on_timer_timeout();
+    void on_compute_command();
     void on_y_button_pressed(bool);
     void on_x_button_pressed(bool);
     void on_b_button_pressed(bool);
@@ -51,15 +51,13 @@ private:
     static int map(int,int,int,int,int);
 private:
     QGamepad *pad;
-    Command uniform_cmd;
-    QTimer *_timer;
-    double _roll = 0 , _pitch = 0, _acc = 0;
+    qint64 _last = 0;
+    double _yaw = 0, _roll = 0 , _pitch = 0, _acc = 0;
+
+    Command _last_cmd;
 
     int _acc_scale = 10;
     int _pitch_scale = 10;
-
-    int _offset_hg = 0, _offset_hd = 0, _offset_bg = 0, _offset_bd = 0;
-    bool _offsets_enabled = false;
 };
 
 #endif // PREPROCESSOR_H

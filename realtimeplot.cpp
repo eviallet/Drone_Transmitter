@@ -34,10 +34,6 @@ void RealTimePlot::set_axis_names(QString x, QString y) {
     chart()->axisY()->setTitleText(y);
 }
 
-void RealTimePlot::show_average(bool show) {
-    _show_average = show;
-}
-
 
 void RealTimePlot::append(int y, int x) {
     if(_t_0==0)
@@ -69,7 +65,8 @@ void RealTimePlot::append(int y, int x) {
         chart()->axisY()->setRange(_y_min, _y_max);
     }
 
-    // Here, used for ping : draw a horizontal line to show the average ping value over the lasts 10 seconds
+    // draw a horizontal line to show the average value over the lasts 10 seconds
+    /*
     if(_show_average) {
 
         int sum = 0, count = 0;
@@ -99,6 +96,7 @@ void RealTimePlot::append(int y, int x) {
         else
             chart()->axisY()->setTitleBrush(QBrush(QColor(232, 27, 27)));
     }
+    */
 }
 
 void RealTimePlot::clear_data() {

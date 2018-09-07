@@ -6,27 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1367</width>
-    <height>859</height>
+    <width>1210</width>
+    <height>583</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="Line" name="line">
-    <property name="geometry">
-     <rect>
-      <x>440</x>
-      <y>0</y>
-      <width>20</width>
-      <height>861</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="connexion_box">
     <property name="geometry">
      <rect>
@@ -64,7 +51,7 @@
             <number>255</number>
            </property>
            <property name="value">
-            <number>137</number>
+            <number>1</number>
            </property>
           </widget>
          </item>
@@ -74,7 +61,7 @@
             <number>255</number>
            </property>
            <property name="value">
-            <number>122</number>
+            <number>4</number>
            </property>
           </widget>
          </item>
@@ -91,86 +78,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="RealTimePlot" name="chart_ping">
-    <property name="geometry">
-     <rect>
-      <x>450</x>
-      <y>0</y>
-      <width>881</width>
-      <height>181</height>
-     </rect>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>10000</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="RealTimePlot" name="chart_drone_hg">
-    <property name="geometry">
-     <rect>
-      <x>450</x>
-      <y>180</y>
-      <width>441</width>
-      <height>241</height>
-     </rect>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>10000</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="RealTimePlot" name="chart_drone_hd">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>180</y>
-      <width>441</width>
-      <height>241</height>
-     </rect>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>10000</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="RealTimePlot" name="chart_drone_bg">
-    <property name="geometry">
-     <rect>
-      <x>450</x>
-      <y>420</y>
-      <width>441</width>
-      <height>241</height>
-     </rect>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>10000</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="RealTimePlot" name="chart_drone_bd">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>420</y>
-      <width>441</width>
-      <height>241</height>
-     </rect>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>10000</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
@@ -181,7 +88,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>Tweaks</string>
+     <string>PID</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="1" column="0">
@@ -189,17 +96,20 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Pitch/roll factor :</string>
+          <string>Ti</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="scale_box_pitch">
-         <property name="maximum">
-          <number>5000</number>
+        <widget class="QDoubleSpinBox" name="double_spinbox_ti">
+         <property name="decimals">
+          <number>8</number>
          </property>
-         <property name="value">
-          <number>10</number>
+         <property name="maximum">
+          <double>10000.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
          </property>
         </widget>
        </item>
@@ -210,52 +120,50 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Acceleration factor :</string>
+          <string>Kp</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="scale_box_acc">
-         <property name="maximum">
-          <number>5000</number>
+        <widget class="QDoubleSpinBox" name="double_spinbox_kp">
+         <property name="decimals">
+          <number>8</number>
          </property>
-         <property name="value">
-          <number>10</number>
+         <property name="maximum">
+          <double>10000.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="2" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Td</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="double_spinbox_td">
+         <property name="decimals">
+          <number>8</number>
+         </property>
+         <property name="maximum">
+          <double>10000.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
          </property>
         </widget>
        </item>
       </layout>
      </item>
     </layout>
-   </widget>
-   <widget class="QPushButton" name="close_button">
-    <property name="geometry">
-     <rect>
-      <x>1330</x>
-      <y>10</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>ClosedHandCursor</cursorShape>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resources.qrc">
-      <normaloff>:/icons/images/btn_disconnected.png</normaloff>:/icons/images/btn_disconnected.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>24</width>
-      <height>24</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
    </widget>
    <widget class="QLabel" name="left_stick_icon">
     <property name="geometry">
@@ -526,120 +434,21 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGraphicsView" name="drone_angle_graph">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>560</y>
-      <width>252</width>
-      <height>99</height>
+      <x>480</x>
+      <y>0</y>
+      <width>731</width>
+      <height>581</height>
      </rect>
     </property>
-    <property name="title">
-     <string>Motors offsets</string>
-    </property>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QSpinBox" name="spin_offset_hg">
-           <property name="minimum">
-            <number>-20000</number>
-           </property>
-           <property name="maximum">
-            <number>20000</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spin_offset_hd">
-           <property name="minimum">
-            <number>-20000</number>
-           </property>
-           <property name="maximum">
-            <number>20000</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
-          <widget class="QSpinBox" name="spin_offset_bg">
-           <property name="minimum">
-            <number>-20000</number>
-           </property>
-           <property name="maximum">
-            <number>20000</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spin_offset_bd">
-           <property name="minimum">
-            <number>-20000</number>
-           </property>
-           <property name="maximum">
-            <number>20000</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item row="0" column="1">
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="QCheckBox" name="offset_enabled">
-         <property name="text">
-          <string>Activé</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="offset_changed">
-         <property name="text">
-          <string>Valider</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
    </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>RealTimePlot</class>
-   <extends>QGraphicsView</extends>
-   <header location="global">realtimeplot.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>close_button</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1295</x>
-     <y>15</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>654</x>
-     <y>330</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
