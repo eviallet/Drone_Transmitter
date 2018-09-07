@@ -1,7 +1,7 @@
 # Drone
 Controlling a drone with Qt. Real time view of each motor's speed with QCharts
 
-<img src="Capture.PNG" height="450" width="800">
+<img src="PlotsCapture.PNG" height="450" width="800">
 
 Receiver : https://github.com/EViallet/Drone_Receiver
 
