@@ -7,7 +7,7 @@ Receiver : https://github.com/EViallet/Drone_Receiver
 
 # Working
 * Gamepad controlling speed, tweakable at runtime (for live testing)
-* Real time plotting of speed and ping
+* Real time plotting of the drone's sensors.
 
 # TODO
 * Infrared sonar for altitude
