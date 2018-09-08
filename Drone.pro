@@ -15,7 +15,6 @@ SOURCES += \
         mainwindow.cpp \
     transmitter.cpp \
     preprocessor.cpp \
-    packet.cpp \
     realtimeplot.cpp
 
 HEADERS += \

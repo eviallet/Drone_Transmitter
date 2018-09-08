@@ -47,13 +47,20 @@ private slots:
     void on_rkp_changed(double value);
     void on_rti_changed(double value);
     void on_rtd_changed(double value);
+
     void on_pid_load_clicked();
     void on_pid_save_clicked();
+    void on_pid_reset_clicked();
+    void on_log_stateChanged(int checked);
 private:
     Ui::MainWindow *ui;
     Transmitter *transmitter;
     Preprocessor *preprocessor;
     RealTimePlot *_yaw_plot, *_pitch_plot, *_roll_plot;
+    PIDParams _pidparams;
+    bool _log = false;
+    QFile *_log_file;
+    qint64 _log_start = 0;
 
     int _lx, _ly, _rx, _ry, _ls, _rs;
 };

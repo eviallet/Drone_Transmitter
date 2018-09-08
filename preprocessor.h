@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QTime>
 #include <QDateTime>
+#include <math.h>
 
 #include "packet.h"
 
@@ -30,7 +31,7 @@ signals:
     void b_button(bool);
     void a_button(bool);
     void connected(bool);
-    void command_changed(Command);
+    void command_changed(SetPoint);
 public slots:
     void on_acc_scale_changed(int value);
     void on_pitch_scale_changed(int value);
@@ -54,7 +55,7 @@ private:
     qint64 _last = 0;
     double _yaw = 0, _roll = 0 , _pitch = 0, _acc = 0;
 
-    Command _last_cmd;
+    SetPoint _last_sp;
 
     int _acc_scale = 10;
     int _pitch_scale = 10;

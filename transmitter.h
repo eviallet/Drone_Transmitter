@@ -19,7 +19,8 @@ signals:
     void remote_sensor_infos(SensorData);
 public slots:
     void connect_to(int address, int address2);
-    void send(Command cmd);
+    void send(PIDParams);
+    void send_setpoint(SetPoint);
 private slots:
     void on_socket_data_connected();
     void on_socket_data_error(QAbstractSocket::SocketError error);
@@ -29,7 +30,7 @@ private:
     QTcpSocket *_socket_data;
     bool _waiting_for_connection = true;
     bool _is_connected = false;
-    Command _last_command;
+    SetPoint _last_sp;
 };
 
 #endif // TRANSMITTER_H

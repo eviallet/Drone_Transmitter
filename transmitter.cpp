@@ -33,22 +33,27 @@ void Transmitter::on_socket_data_error(QAbstractSocket::SocketError e) {
     qWarning() << "Data - Socket error :" << e;
 }
 
-void Transmitter::send(Command cmd) {
-    if(_socket_data->state()==QAbstractSocket::ConnectedState && !is_equal(cmd,_last_command)) {
-        _socket_data->write(QByteArray::fromRawData(cmd.Bytes, 4*sizeof(short)).data());
-        _last_command = cmd;
+void Transmitter::send_setpoint(SetPoint sp) {
+    if(_socket_data->state()==QAbstractSocket::ConnectedState) {
+        _socket_data->write(encode_setpoint(sp));
+        _last_sp = sp;
     }
 }
 
-// TODO don't skip on any data
+void Transmitter::send(PIDParams p) {
+    if(_socket_data->state()==QAbstractSocket::ConnectedState) {
+        _socket_data->write(encode_pid_params(p));
+    }
+}
+
 void Transmitter::on_socket_data_readyRead() {
-    while(_socket_data->bytesAvailable()>0) {
-        QByteArray received = _socket_data->readAll();
+    QByteArray received = _socket_data->readAll();
+    while(received.length()>0) {
         //qDebug() << QString("Reading %1 bytes.").arg(received.length());
-        //for(int i=0; i<received.length(); i++) {
-            //SensorData s = sensor_from_bytes(received.mid(i*4, i*4+4));
+        for(int i=0; i<received.length(); i++) {
             SensorData s = sensor_from_bytes(received.left(4*sizeof(float)));
             emit(remote_sensor_infos(s));
-        //}
+            received.remove(0,4*sizeof(float));
+        }
     }
 }

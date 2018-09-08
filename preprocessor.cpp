@@ -3,10 +3,10 @@
 Preprocessor::Preprocessor() {
     pad = new QGamepad();
 
-    _last_cmd.speed = LOW_LIMIT;
-    _last_cmd.yaw = LOW_LIMIT;
-    _last_cmd.pitch = LOW_LIMIT;
-    _last_cmd.roll = LOW_LIMIT;
+    _last_sp.speed = LOW_LIMIT;
+    _last_sp.yaw = LOW_LIMIT;
+    _last_sp.pitch = LOW_LIMIT;
+    _last_sp.roll = LOW_LIMIT;
 
     // Pad joysticks
     connect(pad, SIGNAL(axisLeftXChanged(double)), this, SLOT(on_axisLeftXChanged(double)));
@@ -32,8 +32,9 @@ void Preprocessor::run() {
     while(true) {
         if(_last == 0)
             _last = QDateTime::currentMSecsSinceEpoch();
-        else if(QDateTime::currentMSecsSinceEpoch() - _last >= 50) {
+        else if(QDateTime::currentMSecsSinceEpoch() - _last >= 70) {
             emit(compute_command());
+            _last = QDateTime::currentMSecsSinceEpoch();
         }
     }
 }
@@ -43,8 +44,7 @@ void Preprocessor::on_compute_command() {
     _pitch = (double)-pad->axisLeftY()*100;
     _acc = (pad->buttonR2()-pad->buttonL2()) * 100;
 
-
-    long speed = _last_cmd.speed + _acc*_acc_scale;
+    long speed = _last_sp.speed + _acc*_acc_scale;
 
     if(speed>HIGH_LIMIT)
         speed = HIGH_LIMIT;
@@ -52,13 +52,16 @@ void Preprocessor::on_compute_command() {
         speed = LOW_LIMIT;
 
 
-    Command cmd;
-    cmd.speed = (unsigned short) speed;
-    cmd.yaw = 0;
-    cmd.pitch = (unsigned short) _pitch;
-    cmd.roll = (unsigned short) _roll;
+    SetPoint sp;
+    sp.speed = (unsigned short) speed;
+    sp.yaw = 0; // TODO using right stick angle?
+    sp.pitch = (short) _pitch;
+    sp.roll = (short) _roll;
 
-    emit(command_changed(cmd));
+    if(!is_equal(_last_sp,sp)&&compute_variation(sp,_last_sp)) {
+        emit(command_changed(sp));
+        _last_sp = sp;
+    }
 }
 
 
@@ -90,10 +93,10 @@ void Preprocessor::on_connectedChanged(bool value) {
 }
 
 void Preprocessor::on_y_button_pressed(bool value) {
-    _last_cmd.speed = 0;
-    _last_cmd.yaw = 0;
-    _last_cmd.pitch = 0;
-    _last_cmd.roll = 0;
+    _last_sp.speed = 0;
+    _last_sp.yaw = 0;
+    _last_sp.pitch = 0;
+    _last_sp.roll = 0;
     emit(y_button(value));
 }
 void Preprocessor::on_x_button_pressed(bool value) {

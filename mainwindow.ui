@@ -106,7 +106,7 @@
        <item>
         <widget class="QDoubleSpinBox" name="double_spinbox_yti">
          <property name="decimals">
-          <number>8</number>
+          <number>7</number>
          </property>
          <property name="maximum">
           <double>10000.000000000000000</double>
@@ -130,7 +130,7 @@
        <item>
         <widget class="QDoubleSpinBox" name="double_spinbox_ykp">
          <property name="decimals">
-          <number>8</number>
+          <number>7</number>
          </property>
          <property name="maximum">
           <double>10000.000000000000000</double>
@@ -154,7 +154,7 @@
        <item>
         <widget class="QDoubleSpinBox" name="double_spinbox_ytd">
          <property name="decimals">
-          <number>8</number>
+          <number>7</number>
          </property>
          <property name="maximum">
           <double>10000.000000000000000</double>
@@ -472,7 +472,7 @@
        <item>
         <widget class="QDoubleSpinBox" name="double_spinbox_pti">
          <property name="decimals">
-          <number>8</number>
+          <number>7</number>
          </property>
          <property name="maximum">
           <double>10000.000000000000000</double>
@@ -496,7 +496,7 @@
        <item>
         <widget class="QDoubleSpinBox" name="double_spinbox_pkp">
          <property name="decimals">
-          <number>8</number>
+          <number>7</number>
          </property>
          <property name="maximum">
           <double>10000.000000000000000</double>
@@ -520,7 +520,7 @@
        <item>
         <widget class="QDoubleSpinBox" name="double_spinbox_ptd">
          <property name="decimals">
-          <number>8</number>
+          <number>7</number>
          </property>
          <property name="maximum">
           <double>10000.000000000000000</double>
@@ -559,7 +559,7 @@
        <item>
         <widget class="QDoubleSpinBox" name="double_spinbox_rti">
          <property name="decimals">
-          <number>8</number>
+          <number>7</number>
          </property>
          <property name="maximum">
           <double>10000.000000000000000</double>
@@ -583,7 +583,7 @@
        <item>
         <widget class="QDoubleSpinBox" name="double_spinbox_rkp">
          <property name="decimals">
-          <number>8</number>
+          <number>7</number>
          </property>
          <property name="maximum">
           <double>10000.000000000000000</double>
@@ -607,7 +607,7 @@
        <item>
         <widget class="QDoubleSpinBox" name="double_spinbox_rtd">
          <property name="decimals">
-          <number>8</number>
+          <number>7</number>
          </property>
          <property name="maximum">
           <double>10000.000000000000000</double>
@@ -665,6 +665,32 @@
     </property>
     <property name="text">
      <string>Charger</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pid_reset">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>690</y>
+      <width>80</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Reset PID</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="log">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>690</y>
+      <width>72</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Log</string>
     </property>
    </widget>
   </widget>
