@@ -129,6 +129,75 @@ void MainWindow::on_transmitter_disconnected() {
 
 
 // Corrector
+void MainWindow::on_pid_save_clicked() {
+    QString filename = QFileDialog::getSaveFileName(this);
+    QFile *save = new QFile(filename);
+    save->open(QFile::WriteOnly);
+    QString y_kp = QString::number(ui->double_spinbox_ykp->value());
+    QString y_ti = QString::number(ui->double_spinbox_yti->value());
+    QString y_td = QString::number(ui->double_spinbox_ytd->value());
+
+    QString p_kp = QString::number(ui->double_spinbox_pkp->value());
+    QString p_ti = QString::number(ui->double_spinbox_pti->value());
+    QString p_td = QString::number(ui->double_spinbox_ptd->value());
+
+    QString r_kp = QString::number(ui->double_spinbox_rkp->value());
+    QString r_ti = QString::number(ui->double_spinbox_rti->value());
+    QString r_td = QString::number(ui->double_spinbox_rtd->value());
+
+    foreach(QChar c, y_kp)
+        save->putChar(c.toLatin1());
+    save->putChar('\n');
+    foreach(QChar c, y_ti)
+        save->putChar(c.toLatin1());
+    save->putChar('\n');
+    foreach(QChar c, y_td)
+        save->putChar(c.toLatin1());
+    save->putChar('\n');
+    foreach(QChar c, p_kp)
+        save->putChar(c.toLatin1());
+    save->putChar('\n');
+    foreach(QChar c, p_ti)
+        save->putChar(c.toLatin1());
+    save->putChar('\n');
+    foreach(QChar c, p_td)
+        save->putChar(c.toLatin1());
+    save->putChar('\n');
+    foreach(QChar c, r_kp)
+        save->putChar(c.toLatin1());
+    save->putChar('\n');
+    foreach(QChar c, r_ti)
+        save->putChar(c.toLatin1());
+    save->putChar('\n');
+    foreach(QChar c, r_td)
+        save->putChar(c.toLatin1());
+    save->putChar('\n');
+    save->close();
+}
+
+void MainWindow::on_pid_load_clicked() {
+    QString filename = QFileDialog::getOpenFileName(this);
+    QFile *load = new QFile(filename);
+    load->open(QFile::ReadOnly);
+
+    QByteArray content = load->readAll();
+    QString contentString(content);
+
+    if(contentString.count('\n')==9)
+
+    ui->double_spinbox_ykp->setValue(contentString.section('\n',0,0).toDouble());
+    ui->double_spinbox_yti->setValue(contentString.section('\n',1,1).toDouble());
+    ui->double_spinbox_ytd->setValue(contentString.section('\n',2,2).toDouble());
+
+    ui->double_spinbox_pkp->setValue(contentString.section('\n',3,3).toDouble());
+    ui->double_spinbox_pti->setValue(contentString.section('\n',4,4).toDouble());
+    ui->double_spinbox_ptd->setValue(contentString.section('\n',5,5).toDouble());
+
+    ui->double_spinbox_rkp->setValue(contentString.section('\n',6,6).toDouble());
+    ui->double_spinbox_rti->setValue(contentString.section('\n',7,7).toDouble());
+    ui->double_spinbox_rtd->setValue(contentString.section('\n',8,8).toDouble());
+}
+
 // Yaw
 void MainWindow::on_ykp_changed(double value) {
 

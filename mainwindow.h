@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include <QFileDialog>
 
 #include "transmitter.h"
 #include "preprocessor.h"
@@ -46,6 +47,8 @@ private slots:
     void on_rkp_changed(double value);
     void on_rti_changed(double value);
     void on_rtd_changed(double value);
+    void on_pid_load_clicked();
+    void on_pid_save_clicked();
 private:
     Ui::MainWindow *ui;
     Transmitter *transmitter;
