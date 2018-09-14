@@ -20,7 +20,8 @@ signals:
 public slots:
     void connect_to(int address, int address2);
     void send(PIDParams);
-    void send_setpoint(SetPoint);
+    void send(SetPoint);
+    void send(Settings);
 private slots:
     void on_socket_data_connected();
     void on_socket_data_error(QAbstractSocket::SocketError error);

@@ -33,7 +33,7 @@ void Transmitter::on_socket_data_error(QAbstractSocket::SocketError e) {
     qWarning() << "Data - Socket error :" << e;
 }
 
-void Transmitter::send_setpoint(SetPoint sp) {
+void Transmitter::send(SetPoint sp) {
     if(_socket_data->state()==QAbstractSocket::ConnectedState) {
         _socket_data->write(encode_setpoint(sp));
         _last_sp = sp;
@@ -43,6 +43,12 @@ void Transmitter::send_setpoint(SetPoint sp) {
 void Transmitter::send(PIDParams p) {
     if(_socket_data->state()==QAbstractSocket::ConnectedState) {
         _socket_data->write(encode_pid_params(p));
+    }
+}
+
+void Transmitter::send(Settings t) {
+    if(_socket_data->state()==QAbstractSocket::ConnectedState) {
+        _socket_data->write(encode_settings(t));
     }
 }
 

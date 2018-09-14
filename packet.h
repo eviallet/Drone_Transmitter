@@ -10,7 +10,7 @@
 
 // OUT DATA
 
-static char SETPOINT = 's';
+const static char SETPOINT = 's';
 struct SetPoint {
     unsigned short speed;
     short yaw;
@@ -70,7 +70,7 @@ static bool compute_variation(SetPoint &left, SetPoint &right) {
 
 
 
-static char PIDPARAMS = 'p';
+const static char PIDPARAMS = 'p';
 struct PIDParams {
     float ykp;
     float yti;
@@ -101,6 +101,70 @@ static QByteArray encode_pid_params(PIDParams p) {
     return bytes;
 }
 
+
+
+
+
+const static char SETTINGS = 't';
+struct Settings {
+    bool HG;
+    bool HD;
+    bool BG;
+    bool BD;
+};
+
+static QByteArray encode_settings(Settings t) {
+    char HG = t.HG?'y':'n';
+    char HD = t.HD?'y':'n';
+    char BG = t.BG?'y':'n';
+    char BD = t.BD?'y':'n';
+    char checksum = HG+HD+BG+BD;
+    QByteArray bytes;
+    bytes.append(SETTINGS)
+            .append(HG)
+            .append(HD)
+            .append(BG)
+            .append(BD)
+            .append(checksum);
+    return bytes;
+}
+
+enum SETTINGS_SET {
+    ALL,
+    PITCH_TEST,
+    ROLL_TEST,
+    STOP
+};
+
+static Settings get_settings(SETTINGS_SET s) {
+    Settings t;
+    switch(s) {
+    case ALL:
+        t.HG=true;
+        t.HD=true;
+        t.BG=true;
+        t.BD=true;
+        return t;
+    case PITCH_TEST:
+        t.HG=false;
+        t.HD=true;
+        t.BG=true;
+        t.BD=false;
+        return t;
+    case ROLL_TEST:
+        t.HG=true;
+        t.HD=false;
+        t.BG=false;
+        t.BD=true;
+        return t;
+    case STOP:
+        t.HG=false;
+        t.HD=false;
+        t.BG=false;
+        t.BD=false;
+        return t;
+    }
+}
 
 
 // IN DATA

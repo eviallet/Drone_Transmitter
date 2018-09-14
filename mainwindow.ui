@@ -21,7 +21,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>410</y>
+      <y>250</y>
       <width>191</width>
       <height>131</height>
      </rect>
@@ -81,11 +81,14 @@
      </item>
     </layout>
    </widget>
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="box_pid_y">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>410</y>
+      <x>240</x>
+      <y>250</y>
       <width>201</width>
       <height>131</height>
      </rect>
@@ -171,8 +174,8 @@
    <widget class="QLabel" name="left_stick_icon">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>180</y>
+      <x>50</x>
+      <y>120</y>
       <width>81</width>
       <height>81</height>
      </rect>
@@ -190,8 +193,8 @@
    <widget class="QLabel" name="right_stick_icon">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>180</y>
+      <x>340</x>
+      <y>120</y>
       <width>81</width>
       <height>81</height>
      </rect>
@@ -209,8 +212,8 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>140</y>
+      <x>10</x>
+      <y>80</y>
       <width>161</width>
       <height>161</height>
      </rect>
@@ -228,8 +231,8 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>140</y>
+      <x>300</x>
+      <y>80</y>
       <width>161</width>
       <height>161</height>
      </rect>
@@ -247,8 +250,8 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>30</y>
+      <x>150</x>
+      <y>10</y>
       <width>41</width>
       <height>91</height>
      </rect>
@@ -266,8 +269,8 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>30</y>
+      <x>280</x>
+      <y>10</y>
       <width>41</width>
       <height>91</height>
      </rect>
@@ -285,8 +288,8 @@
    <widget class="QLabel" name="left_shoulder">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>110</y>
+      <x>160</x>
+      <y>90</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -304,8 +307,8 @@
    <widget class="QLabel" name="right_shoulder">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>110</y>
+      <x>290</x>
+      <y>90</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -323,8 +326,8 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>40</y>
+      <x>210</x>
+      <y>10</y>
       <width>51</width>
       <height>51</height>
      </rect>
@@ -345,8 +348,8 @@
    <widget class="QLabel" name="gamepad_connected">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>110</y>
+      <x>210</x>
+      <y>70</y>
       <width>51</width>
       <height>51</height>
      </rect>
@@ -364,8 +367,8 @@
    <widget class="QLabel" name="xbox_y">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>270</y>
+      <x>220</x>
+      <y>140</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -383,8 +386,8 @@
    <widget class="QLabel" name="xbox_x">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>300</y>
+      <x>190</x>
+      <y>170</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -402,8 +405,8 @@
    <widget class="QLabel" name="xbox_a">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>330</y>
+      <x>220</x>
+      <y>200</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -421,8 +424,8 @@
    <widget class="QLabel" name="xbox_b">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>300</y>
+      <x>250</x>
+      <y>170</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -447,12 +450,15 @@
      </rect>
     </property>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGroupBox" name="box_pid_p">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>550</y>
-      <width>191</width>
+      <x>240</x>
+      <y>390</y>
+      <width>201</width>
       <height>131</height>
      </rect>
     </property>
@@ -534,12 +540,15 @@
      </item>
     </layout>
    </widget>
-   <widget class="QGroupBox" name="groupBox_3">
+   <widget class="QGroupBox" name="box_pid_r">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>550</y>
-      <width>197</width>
+      <x>240</x>
+      <y>530</y>
+      <width>201</width>
       <height>131</height>
      </rect>
     </property>
@@ -642,10 +651,13 @@
     </property>
    </widget>
    <widget class="QPushButton" name="pid_save">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>690</y>
+      <x>290</x>
+      <y>670</y>
       <width>80</width>
       <height>21</height>
      </rect>
@@ -655,10 +667,13 @@
     </property>
    </widget>
    <widget class="QPushButton" name="pid_load">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>690</y>
+      <x>370</x>
+      <y>670</y>
       <width>80</width>
       <height>21</height>
      </rect>
@@ -668,23 +683,29 @@
     </property>
    </widget>
    <widget class="QPushButton" name="pid_reset">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>690</y>
-      <width>80</width>
+      <x>240</x>
+      <y>670</y>
+      <width>41</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Reset PID</string>
+     <string>Reset</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="log">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>690</y>
+      <x>40</x>
+      <y>670</y>
       <width>72</width>
       <height>19</height>
      </rect>
@@ -692,6 +713,65 @@
     <property name="text">
      <string>Log</string>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="box_settings">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>390</y>
+      <width>191</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>94</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="settings_all">
+        <property name="text">
+         <string>Tous moteurs</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="settings_pitch">
+        <property name="text">
+         <string>Pitch test</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="settings_roll">
+        <property name="text">
+         <string>Roll test</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="settings_none">
+        <property name="text">
+         <string>Aucun moteur</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
   </widget>
  </widget>

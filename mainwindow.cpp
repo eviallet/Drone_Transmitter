@@ -40,17 +40,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     _rs = ui->right_shoulder->y();
 
     // Corrector control
-    connect(ui->double_spinbox_ykp, SIGNAL(valueChanged(double)), this, SLOT(on_ykp_changed(double)));
-    connect(ui->double_spinbox_yti, SIGNAL(valueChanged(double)), this, SLOT(on_yti_changed(double)));
-    connect(ui->double_spinbox_ytd, SIGNAL(valueChanged(double)), this, SLOT(on_ytd_changed(double)));
+    connect(ui->double_spinbox_ykp, SIGNAL(valueChanged(double)), this, SLOT(on_pid_changed(double)));
+    connect(ui->double_spinbox_yti, SIGNAL(valueChanged(double)), this, SLOT(on_pid_changed(double)));
+    connect(ui->double_spinbox_ytd, SIGNAL(valueChanged(double)), this, SLOT(on_pid_changed(double)));
 
-    connect(ui->double_spinbox_pkp, SIGNAL(valueChanged(double)), this, SLOT(on_pkp_changed(double)));
-    connect(ui->double_spinbox_pti, SIGNAL(valueChanged(double)), this, SLOT(on_pti_changed(double)));
-    connect(ui->double_spinbox_ptd, SIGNAL(valueChanged(double)), this, SLOT(on_ptd_changed(double)));
+    connect(ui->double_spinbox_pkp, SIGNAL(valueChanged(double)), this, SLOT(on_pid_changed(double)));
+    connect(ui->double_spinbox_pti, SIGNAL(valueChanged(double)), this, SLOT(on_pid_changed(double)));
+    connect(ui->double_spinbox_ptd, SIGNAL(valueChanged(double)), this, SLOT(on_pid_changed(double)));
 
-    connect(ui->double_spinbox_rkp, SIGNAL(valueChanged(double)), this, SLOT(on_rkp_changed(double)));
-    connect(ui->double_spinbox_rti, SIGNAL(valueChanged(double)), this, SLOT(on_rti_changed(double)));
-    connect(ui->double_spinbox_rtd, SIGNAL(valueChanged(double)), this, SLOT(on_rtd_changed(double)));
+    connect(ui->double_spinbox_rkp, SIGNAL(valueChanged(double)), this, SLOT(on_pid_changed(double)));
+    connect(ui->double_spinbox_rti, SIGNAL(valueChanged(double)), this, SLOT(on_pid_changed(double)));
+    connect(ui->double_spinbox_rtd, SIGNAL(valueChanged(double)), this, SLOT(on_pid_changed(double)));
+
+    // Motors settings
+    connect(ui->settings_all, SIGNAL(toggled(bool)), this, SLOT(on_settings_changed(bool)));
+    connect(ui->settings_pitch, SIGNAL(toggled(bool)), this, SLOT(on_settings_changed(bool)));
+    connect(ui->settings_roll, SIGNAL(toggled(bool)), this, SLOT(on_settings_changed(bool)));
+    connect(ui->settings_none, SIGNAL(toggled(bool)), this, SLOT(on_settings_changed(bool)));
 
     // Plot
     _yaw_plot = ui->drone_angle_graph_yaw;
@@ -122,17 +128,33 @@ void MainWindow::on_transmitter_connection_clicked() {
     connect(transmitter, SIGNAL(connected()), this, SLOT(on_transmitter_connected()));
     connect(transmitter, SIGNAL(disconnected()), this, SLOT(on_transmitter_disconnected()));
     connect(transmitter, &Transmitter::remote_sensor_infos, this, &MainWindow::on_remote_sensor_infos_received);
-    connect(preprocessor, &Preprocessor::command_changed, transmitter, &Transmitter::send_setpoint);
+    connect(preprocessor, SIGNAL(command_changed(SetPoint)), transmitter, SLOT(send(SetPoint)));
     transmitter->connect_to(ui->drone_spin_ip_1->value(), ui->drone_spin_ip_2->value());
 }
 
 void MainWindow::on_transmitter_connected() {
     ui->connexion_box->setEnabled(false);
+    ui->box_settings->setEnabled(true);
+    ui->box_pid_y->setEnabled(true);
+    ui->box_pid_p->setEnabled(true);
+    ui->box_pid_r->setEnabled(true);
+    ui->pid_save->setEnabled(true);
+    ui->pid_load->setEnabled(true);
+    ui->pid_reset->setEnabled(true);
+    ui->log->setEnabled(true);
 }
 
 void MainWindow::on_transmitter_disconnected() {
     delete transmitter;
     ui->connexion_box->setEnabled(true);
+    ui->box_settings->setEnabled(false);
+    ui->box_pid_y->setEnabled(false);
+    ui->box_pid_p->setEnabled(false);
+    ui->box_pid_r->setEnabled(false);
+    ui->pid_save->setEnabled(false);
+    ui->pid_load->setEnabled(false);
+    ui->pid_reset->setEnabled(false);
+    ui->log->setEnabled(false);
 }
 
 
@@ -199,59 +221,42 @@ void MainWindow::on_pid_reset_clicked() {
     ui->double_spinbox_rtd->setValue(0);
 }
 
-// Yaw
-void MainWindow::on_ykp_changed(double value) {
-    _pidparams.ykp = (float)value;
-    transmitter->send(_pidparams);
-}
 
-void MainWindow::on_yti_changed(double value) {
-    _pidparams.yti = (float)value;
-    transmitter->send(_pidparams);
-}
+void MainWindow::on_pid_changed(double unused) {
+    _pidparams.ykp = (float)ui->double_spinbox_ykp->value();
+    _pidparams.yti = (float)ui->double_spinbox_ytd->value();
+    _pidparams.ytd = (float)ui->double_spinbox_yti->value();
 
-void MainWindow::on_ytd_changed(double value) {
-    _pidparams.ytd = (float)value;
-    transmitter->send(_pidparams);
-}
+    _pidparams.pkp = (float)ui->double_spinbox_pkp->value();
+    _pidparams.ptd = (float)ui->double_spinbox_pti->value();
+    _pidparams.pti = (float)ui->double_spinbox_ptd->value();
 
-// Pitch
-void MainWindow::on_pkp_changed(double value) {
-    _pidparams.pkp = (float)value;
-    transmitter->send(_pidparams);
-}
+    _pidparams.rkp = (float)ui->double_spinbox_rkp->value();
+    _pidparams.rti = (float)ui->double_spinbox_rtd->value();
+    _pidparams.rtd = (float)ui->double_spinbox_rti->value();
 
-void MainWindow::on_pti_changed(double value) {
-    _pidparams.ptd = (float)value;
-    transmitter->send(_pidparams);
-}
-
-void MainWindow::on_ptd_changed(double value) {
-    _pidparams.pti = (float)value;
-    transmitter->send(_pidparams);
-}
-
-// Roll
-void MainWindow::on_rkp_changed(double value) {
-    _pidparams.rkp = (float)value;
-    transmitter->send(_pidparams);
-}
-
-void MainWindow::on_rti_changed(double value) {
-    _pidparams.rti = (float)value;
-    transmitter->send(_pidparams);
-}
-
-void MainWindow::on_rtd_changed(double value) {
-    _pidparams.rtd = (float)value;
     transmitter->send(_pidparams);
 }
 
 
 
+// Settings
+void MainWindow::on_settings_changed(bool checked) {
+    if(checked) {
+        if(ui->settings_all->isChecked())
+            transmitter->send(get_settings(SETTINGS_SET::ALL));
+        else if(ui->settings_pitch->isChecked())
+            transmitter->send(get_settings(SETTINGS_SET::PITCH_TEST));
+        else if(ui->settings_roll->isChecked())
+            transmitter->send(get_settings(SETTINGS_SET::ROLL_TEST));
+        else
+            transmitter->send(get_settings(SETTINGS_SET::STOP));
+    }
+}
 
 
-// UI interactions
+
+// Other UI interactions
 void MainWindow::on_remote_sensor_infos_received(SensorData s) {
     _yaw_plot->append(s);
     _pitch_plot->append(s);
@@ -274,7 +279,7 @@ void MainWindow::on_log_stateChanged(int checked) {
 }
 
 MainWindow::~MainWindow() {
-    if(_log_file->isOpen())
+    if(_log_file!=Q_NULLPTR&&_log_file->isOpen())
             _log_file->close();
     delete ui;
 }
