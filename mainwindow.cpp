@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     _pidparams.rti = 0;
     _pidparams.checksum = 0;
 
+
+    ui->visualization->setVisible(false);
+
     preprocessor = new Preprocessor();
     preprocessor->start();
 
@@ -65,6 +68,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     _pitch_plot->set_type(PITCH);
     _roll_plot = ui->drone_angle_graph_roll;
     _roll_plot->set_type(ROLL);
+
+    // Transmitter
+    transmitter = new Transmitter;
+    connect(transmitter, SIGNAL(connected()), this, SLOT(on_transmitter_connected()));
+    connect(transmitter, SIGNAL(disconnected()), this, SLOT(on_transmitter_disconnected()));
+    connect(transmitter, &Transmitter::remote_sensor_infos, this, &MainWindow::on_remote_sensor_infos_received);
+    connect(preprocessor, SIGNAL(command_changed(SetPoint)), transmitter, SLOT(send(SetPoint)));
 }
 
 // Gamepad
@@ -124,11 +134,6 @@ void MainWindow::on_right_shoulder_moved(int dy) {
 
 // Connection
 void MainWindow::on_transmitter_connection_clicked() {
-    transmitter = new Transmitter;
-    connect(transmitter, SIGNAL(connected()), this, SLOT(on_transmitter_connected()));
-    connect(transmitter, SIGNAL(disconnected()), this, SLOT(on_transmitter_disconnected()));
-    connect(transmitter, &Transmitter::remote_sensor_infos, this, &MainWindow::on_remote_sensor_infos_received);
-    connect(preprocessor, SIGNAL(command_changed(SetPoint)), transmitter, SLOT(send(SetPoint)));
     transmitter->connect_to(ui->drone_spin_ip_1->value(), ui->drone_spin_ip_2->value());
 }
 
@@ -145,7 +150,6 @@ void MainWindow::on_transmitter_connected() {
 }
 
 void MainWindow::on_transmitter_disconnected() {
-    delete transmitter;
     ui->connexion_box->setEnabled(true);
     ui->box_settings->setEnabled(false);
     ui->box_pid_y->setEnabled(false);
@@ -256,11 +260,24 @@ void MainWindow::on_settings_changed(bool checked) {
 
 
 
+// 3D visualization
+void MainWindow::on_visualization_checkbox_stateChanged(int checked) {
+    bool c = checked==Qt::Checked;
+    ui->drone_angle_graph_pitch->setVisible(!c);
+    ui->drone_angle_graph_roll->setVisible(!c);
+    ui->drone_angle_graph_yaw->setVisible(!c);
+    ui->visualization->setVisible(c);
+    ui->visualization->visualization_state(c);
+}
+
+
 // Other UI interactions
 void MainWindow::on_remote_sensor_infos_received(SensorData s) {
     _yaw_plot->append(s);
     _pitch_plot->append(s);
     _roll_plot->append(s);
+
+    ui->visualization->update_angles(s);
 
     if(_log&&_log_file->isOpen()) {
         if(_log_start==0)

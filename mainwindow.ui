@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1210</width>
-    <height>721</height>
+    <width>1323</width>
+    <height>707</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,7 +54,7 @@
             <number>255</number>
            </property>
            <property name="value">
-            <number>1</number>
+            <number>137</number>
            </property>
           </widget>
          </item>
@@ -64,7 +64,7 @@
             <number>255</number>
            </property>
            <property name="value">
-            <number>4</number>
+            <number>92</number>
            </property>
           </widget>
          </item>
@@ -445,8 +445,8 @@
      <rect>
       <x>480</x>
       <y>0</y>
-      <width>731</width>
-      <height>241</height>
+      <width>841</width>
+      <height>231</height>
      </rect>
     </property>
    </widget>
@@ -634,9 +634,9 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>240</y>
-      <width>731</width>
-      <height>241</height>
+      <y>230</y>
+      <width>841</width>
+      <height>231</height>
      </rect>
     </property>
    </widget>
@@ -644,9 +644,9 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>480</y>
-      <width>731</width>
-      <height>241</height>
+      <y>460</y>
+      <width>841</width>
+      <height>231</height>
      </rect>
     </property>
    </widget>
@@ -729,7 +729,7 @@
     <property name="title">
      <string>Settings</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -773,6 +773,66 @@
      </layout>
     </widget>
    </widget>
+   <widget class="Visualization" name="visualization">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>80</y>
+      <width>681</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>200</width>
+      <height>200</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="visualization_checkbox">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>670</y>
+      <width>72</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>3D</string>
+    </property>
+   </widget>
+   <zorder>connexion_box</zorder>
+   <zorder>box_pid_y</zorder>
+   <zorder>left_stick_icon</zorder>
+   <zorder>right_stick_icon</zorder>
+   <zorder>label_3</zorder>
+   <zorder>label_6</zorder>
+   <zorder>label_4</zorder>
+   <zorder>label_7</zorder>
+   <zorder>left_shoulder</zorder>
+   <zorder>right_shoulder</zorder>
+   <zorder>label_5</zorder>
+   <zorder>gamepad_connected</zorder>
+   <zorder>xbox_y</zorder>
+   <zorder>xbox_x</zorder>
+   <zorder>xbox_a</zorder>
+   <zorder>xbox_b</zorder>
+   <zorder>drone_angle_graph_yaw</zorder>
+   <zorder>box_pid_p</zorder>
+   <zorder>box_pid_r</zorder>
+   <zorder>drone_angle_graph_pitch</zorder>
+   <zorder>drone_angle_graph_roll</zorder>
+   <zorder>pid_save</zorder>
+   <zorder>pid_load</zorder>
+   <zorder>pid_reset</zorder>
+   <zorder>log</zorder>
+   <zorder>box_settings</zorder>
+   <zorder>visualization_checkbox</zorder>
+   <zorder>visualization</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -781,6 +841,11 @@
    <class>RealTimePlot</class>
    <extends>QGraphicsView</extends>
    <header>realtimeplot.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Visualization</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">visualization.h</header>
   </customwidget>
  </customwidgets>
  <resources>

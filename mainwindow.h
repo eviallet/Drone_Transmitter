@@ -42,6 +42,7 @@ private slots:
     void on_pid_reset_clicked();
     void on_log_stateChanged(int checked);
     void on_settings_changed(bool checked);
+    void on_visualization_checkbox_stateChanged(int checked);
 private:
     Ui::MainWindow *ui;
     Transmitter *transmitter;
