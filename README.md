@@ -9,6 +9,7 @@ Receiver : https://github.com/EViallet/Drone_Receiver
 * Control the drone with a Xbox gamepad. (@see preprocessor.cpp)
 * Remotely change the drone's PIDs values and save/load them from computer.
 * Real time plotting of the drone's sensors. (@see realtimeplot.cpp)
+* 3D vizualisation of the drone's angles (@see vizualisation.cpp)
 
 # TODO
 * Infrared sonar for altitude
